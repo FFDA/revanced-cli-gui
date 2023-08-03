@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+
+<TabPane fx:id="main_window"
+         maxHeight="-Infinity" maxWidth="-Infinity"
+         minHeight="-Infinity" minWidth="-Infinity"
+         prefHeight="650.0" prefWidth="800.0"
+         stylesheets="@../style/style.css"
+         tabClosingPolicy="UNAVAILABLE"
+         fx:controller="lt.ffda.revancedcligui.controller.MainWindowController"
+         xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+    <Tab closable="false" text="ReVanced">
+        <fx:include fx:id="tab_revanced" source="tab-revanced.fxml"/>
+    </Tab>
+    <Tab closable="false" text="Settings">
+        <fx:include fx:id="tab_settings" source="tab-settings.fxml"/>
+    </Tab>
+</TabPane>

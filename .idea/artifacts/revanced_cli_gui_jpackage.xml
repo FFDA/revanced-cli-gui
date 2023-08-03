@@ -1,0 +1,19 @@
+<component name="ArtifactManager">
+  <artifact type="jpackage" name="revanced-cli-gui-jpackage">
+    <output-path>$PROJECT_DIR$/out/artifacts/revanced_cli_gui_jpackage</output-path>
+    <properties id="jpackage-properties">
+      <options>
+        <option name="version" value="" />
+        <option name="copyright" value="" />
+        <option name="description" value="" />
+        <option name="vendor" value="" />
+        <option name="mainClass" value="lt.ffda.revancedcligui.RevancedCliGui" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="revanced_cli_gui.jar">
+        <element id="module-output" name="revanced-cli-gui" />
+      </element>
+    </root>
+  </artifact>
+</component>

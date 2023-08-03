@@ -1,0 +1,22 @@
+.combo-box > .list-cell {
+    -fx-text-overrun: leading-ellipsis;
+}
+
+* {
+    -fx-font-size: 15;
+}
+
+.tab {
+    -fx-font-size: 15px;
+}
+
+.refresh-button {
+    -fx-background-image: url("../icons/refresh.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 70% 60%;
+    -fx-background-position: center;
+}
+
+.patch-list-item {
+    -fx-padding: 3px;
+}

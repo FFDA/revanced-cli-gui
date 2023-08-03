@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lt.ffda.revancedcligui.controller.TabRevancedController">
+    <Label minHeight="30.0" text="Youtube apk" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0" />
+    <ComboBox fx:id="combobox_youtube_apk" prefWidth="180.0" AnchorPane.leftAnchor="170.0" AnchorPane.topAnchor="20.0" />
+    <Label minHeight="30.0" text="Revanced CLI" AnchorPane.leftAnchor="400.0" AnchorPane.topAnchor="20.0" />
+    <ComboBox fx:id="combobox_revanced_cli" prefWidth="180.0" AnchorPane.leftAnchor="570.0" AnchorPane.topAnchor="20.0" />
+    <Label minHeight="30.0" text="Revanced patches" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="60.0" />
+    <ComboBox fx:id="combobox_revanced_patches" prefWidth="180.0" AnchorPane.leftAnchor="170.0" AnchorPane.topAnchor="60.0" />
+    <Label minHeight="30.0" text="Revanced Integrations" AnchorPane.leftAnchor="400.0" AnchorPane.topAnchor="60.0" />
+    <ComboBox fx:id="combobox_revanced_integration" prefWidth="180.0" AnchorPane.leftAnchor="570.0" AnchorPane.topAnchor="60.0" />
+    <Label minHeight="30.0" text="Vanced MicroG" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="100.0" />
+    <ComboBox fx:id="combobox_vanced_microg" prefWidth="180.0" AnchorPane.leftAnchor="170.0" AnchorPane.topAnchor="100.0" />
+    <TextArea fx:id="text_area" editable="false" prefHeight="300.0" prefWidth="200.0" wrapText="true" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="275.0" />
+    <Label minHeight="30.0" text="Device" AnchorPane.leftAnchor="400.0" AnchorPane.topAnchor="100.0" />
+    <ComboBox fx:id="combobox_devices" prefWidth="180.0" AnchorPane.leftAnchor="570.0" AnchorPane.topAnchor="100.0" />
+    <Button mnemonicParsing="false" onAction="#updateResources" text="Update Resources" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="150.0">
+        <tooltip>
+            <Tooltip text="Updates CLI, patches, integrations and MicroG" />
+        </tooltip>
+    </Button>
+    <Button mnemonicParsing="false" onAction="#installMicroG" text="Install MicroG" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="150.0" />
+    <Button mnemonicParsing="false" onAction="#patchAndInstall" text="Patch and install" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="230.0" />
+    <Button mnemonicParsing="false" onAction="#onYoutubeApkRefresh" styleClass="refresh-button" AnchorPane.leftAnchor="355.0" AnchorPane.topAnchor="20.0" />
+    <Button mnemonicParsing="false" onAction="#onRevancedCliRefresh" styleClass="refresh-button" AnchorPane.leftAnchor="755.0" AnchorPane.topAnchor="20.0" />
+    <Button mnemonicParsing="false" onAction="#onRevancedPatchesRefresh" styleClass="refresh-button" AnchorPane.leftAnchor="355.0" AnchorPane.topAnchor="60.0" />
+    <Button mnemonicParsing="false" onAction="#onRevancedIntegrationsRefresh" styleClass="refresh-button" AnchorPane.leftAnchor="755.0" AnchorPane.topAnchor="60.0" />
+    <Button mnemonicParsing="false" onAction="#onVancedMicroGRefresh" styleClass="refresh-button" AnchorPane.leftAnchor="355.0" AnchorPane.topAnchor="100.0" />
+    <Button mnemonicParsing="false" onAction="#onDevicesRefresh" styleClass="refresh-button" AnchorPane.leftAnchor="755.0" AnchorPane.topAnchor="100.0" />
+   <CheckBox fx:id="checkbox_advanced" mnemonicParsing="false" onAction="#onAdvanced" text="Advanced" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="155.0" />
+</AnchorPane>

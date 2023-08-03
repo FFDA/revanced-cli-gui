@@ -1,0 +1,5 @@
+--runtime-image target/runtime
+--type app-image
+--module-path target/classes
+--module lt.ffda.revancedcligui/lt.ffda.revancedcligui.RevancedCliGui
+--icon src/icon/linux/icon.png
