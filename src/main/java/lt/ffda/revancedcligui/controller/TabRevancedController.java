@@ -21,7 +21,8 @@ import java.util.stream.Collectors;
 
 public class TabRevancedController {
     private MainWindowController mainWindowController;
-    private TabAdvancedController tabAdvancedController;
+    private TabExcludeController tabExcludeController;
+    private TabIncludeController tabIncludeController;
     @FXML
     private ComboBox<String> combobox_youtube_apk;
     @FXML
@@ -37,18 +38,24 @@ public class TabRevancedController {
     @FXML
     private TextArea text_area;
     @FXML
-    private CheckBox checkbox_advanced;
+    private CheckBox checkbox_exclude;
+    @FXML
+    private CheckBox checkbox_include;
     // Needed as a variable that it could be removed at appropriate time when refreshing the list
     private ChangeListener<String> revancedPatchesChangeListener;
 
-    @FXML
     public void initialize() {
         this.getSupportedYoutubeVersion();
         new Thread(new DeviceCheck(this.combobox_devices, this.text_area)).start();
         this.revancedPatchesChangeListener = (observableValue, oldValue, newValue) -> {
-            if (checkbox_advanced.isSelected()) {
+            if (checkbox_exclude.isSelected()) {
                 if (newValue != null && !newValue.equals(oldValue)) {
-                    loadPatches();
+                    loadPatchesExclude();
+                }
+            }
+            if (checkbox_include.isSelected()) {
+                if (newValue != null && !newValue.equals(oldValue)) {
+                    loadPatchesInclude();
                 }
             }
         };
@@ -126,9 +133,13 @@ public class TabRevancedController {
      */
     public void patchAndInstall() {
         if (this.areResourceSelected()) {
-            new Thread(new Patcher(getCommand(), this.text_area)).start();
+            ExecutorService executorService = Executors.newSingleThreadExecutor();
+            for (String command: getCommands()) {
+                executorService.submit(new Patcher(command, this.text_area));
+            }
+            executorService.shutdown();
         } else {
-            this.text_area.appendText("Not all resources selected");
+            this.text_area.appendText("Not all resources selected\n");
         }
     }
 
@@ -139,25 +150,31 @@ public class TabRevancedController {
         if (this.areMicroGResourcesSelected()) {
             new Thread(new Patcher(getMicroGCommand(), this.text_area)).start();
         } else {
-            this.text_area.appendText("Not all resources selected");
+            this.text_area.appendText("Not all resources selected\n");
         }
     }
 
     /**
-     * Creates a command with user selected resources for patching
+     * Creates a command with user selected resources for patching and installing apk
      * @return command with user selected resources
      */
-    private String getCommand() {
-        return String.format("java -jar %1$s -a %2$s%3$s -d %4$s -o %5$s -b %6$s -m %7$s%8$s",
+    private String[] getCommands() {
+        String patchedApk = this.combobox_youtube_apk.getValue().contains("youtube") ? this.combobox_youtube_apk.getValue().replace("youtube", "revanced_youtube") : String.format("revanced_%1$s", this.combobox_youtube_apk.getValue());
+        String commandPatch = String.format("java -jar %1$s patch %2$s -b %3$s -m %4$s%5$s%6$s -o %7$s %8$s",
                 Resource.REVANCED_CLI.getFolderName() + File.separatorChar + this.combobox_revanced_cli.getValue(),
-                Resource.YOUTUBE_APK.getFolderName() + File.separatorChar + this.combobox_youtube_apk.getValue(),
-                Preferences.getInstance().getPreferenceValue(Preference.CLEAN_TEMPORARY_FILES) ? " -c" : "",
-                this.combobox_devices.getValue().split(" - ")[0],
-                this.combobox_youtube_apk.getValue().contains("youtube") ? this.combobox_youtube_apk.getValue().replace("youtube", "revanced_youtube") : String.format("revanced_%1$s", this.combobox_youtube_apk.getValue()),
+                Preferences.getInstance().getPreferenceValue(Preference.CLEAN_TEMPORARY_FILES) ? " -p" : "",
                 Resource.REVANCED_PATCHES.getFolderName() + File.separatorChar + this.combobox_revanced_patches.getValue(),
                 Resource.REVANCED_INTEGRATIONS.getFolderName() + File.separatorChar + this.combobox_revanced_integration.getValue(),
-                this.checkbox_advanced.isSelected() ? this.tabAdvancedController.getExcludedPatches() : ""
+                this.checkbox_exclude.isSelected() ? this.tabExcludeController.getExcludedPatches() : "",
+                this.checkbox_include.isSelected() ? this.tabIncludeController.getIncludedPatches() : "",
+                patchedApk,
+                Resource.YOUTUBE_APK.getFolderName() + File.separatorChar + this.combobox_youtube_apk.getValue()
         );
+        String commandInstall = String.format("java -jar %1$s utility install -a %2$s %3$s",
+                Resource.REVANCED_CLI.getFolderName() + File.separatorChar + this.combobox_revanced_cli.getValue(),
+                patchedApk,
+                this.combobox_devices.getValue().split(" - ")[0]);
+        return new String[]{commandPatch, commandInstall};
     }
 
     /**
@@ -283,34 +300,73 @@ public class TabRevancedController {
     }
 
     /**
-     * Action on checking/unchecking of "Advanced" checkbox
+     * Action on checking/unchecking of "Exclude" checkbox
      */
-    public void onAdvanced() {
-        if (this.checkbox_advanced.isSelected()) {
+    public void onExclude() {
+        if (this.checkbox_exclude.isSelected()) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/lt/ffda/revancedcligui/view/tab-advanced.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/lt/ffda/revancedcligui/view/tab-exclude.fxml"));
                 AnchorPane anchorPane = fxmlLoader.load();
-                Tab tab = new Tab("Patches");
+                Tab tab = new Tab("Exclude");
                 tab.setContent(anchorPane);
-                this.mainWindowController.getTabPane().getTabs().add(1, tab);
-                this.tabAdvancedController = fxmlLoader.getController();
-                this.loadPatches();
+                this.mainWindowController.getTabPane().getTabs().add(this.mainWindowController.getTabPane().getTabs().size() - 1, tab);
+                this.tabExcludeController = fxmlLoader.getController();
+                this.loadPatchesExclude();
             } catch (IOException e) {
                 this.text_area.appendText(e.toString());
             }
         } else {
-            this.tabAdvancedController = null;
-            this.mainWindowController.getTabPane().getTabs().remove(1);
+            this.tabExcludeController = null;
+            Tab tab = this.mainWindowController.getTabPane().getTabs().stream()
+                    .filter(t -> t.getText().equals("Exclude"))
+                    .findFirst()
+                    .get();
+            this.mainWindowController.getTabPane().getTabs().remove(tab);
         }
     }
 
     /**
-     * Load all available patches to the HBox of "Advanced" tab
+     * Action on checking/unchecking of "Include" checkbox
      */
-    private void loadPatches() {
-        this.tabAdvancedController.loadPatches(
+    public void onInclude() {
+        if (this.checkbox_include.isSelected()) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/lt/ffda/revancedcligui/view/tab-include.fxml"));
+                AnchorPane anchorPane = fxmlLoader.load();
+                Tab tab = new Tab("Include");
+                tab.setContent(anchorPane);
+                this.mainWindowController.getTabPane().getTabs().add(this.mainWindowController.getTabPane().getTabs().size() - 1, tab);
+                this.tabIncludeController = fxmlLoader.getController();
+                this.loadPatchesInclude();
+            } catch (IOException e) {
+                this.text_area.appendText(e.toString());
+            }
+        } else {
+            this.tabIncludeController = null;
+            Tab tab = this.mainWindowController.getTabPane().getTabs().stream()
+                    .filter(t -> t.getText().equals("Include"))
+                    .findFirst()
+                    .get();
+            this.mainWindowController.getTabPane().getTabs().remove(tab);
+        }
+    }
+
+    /**
+     * Load all available patches to the HBox of "Exclude" tab
+     */
+    private void loadPatchesExclude() {
+        this.tabExcludeController.loadPatches(
                 Resource.REVANCED_CLI.getFolderName() + File.separatorChar + this.combobox_revanced_cli.getValue(),
-                Resource.YOUTUBE_APK.getFolderName() + File.separatorChar + this.combobox_youtube_apk.getValue(),
+                Resource.REVANCED_PATCHES.getFolderName() + File.separatorChar + this.combobox_revanced_patches.getValue()
+        );
+    }
+
+    /**
+     * Load all available patches to the HBox of "Include" tab
+     */
+    private void loadPatchesInclude() {
+        this.tabIncludeController.loadPatches(
+                Resource.REVANCED_CLI.getFolderName() + File.separatorChar + this.combobox_revanced_cli.getValue(),
                 Resource.REVANCED_PATCHES.getFolderName() + File.separatorChar + this.combobox_revanced_patches.getValue()
         );
     }

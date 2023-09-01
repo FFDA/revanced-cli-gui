@@ -30,5 +30,6 @@
     <Button mnemonicParsing="false" onAction="#onRevancedIntegrationsRefresh" styleClass="refresh-button" AnchorPane.leftAnchor="755.0" AnchorPane.topAnchor="60.0" />
     <Button mnemonicParsing="false" onAction="#onVancedMicroGRefresh" styleClass="refresh-button" AnchorPane.leftAnchor="355.0" AnchorPane.topAnchor="100.0" />
     <Button mnemonicParsing="false" onAction="#onDevicesRefresh" styleClass="refresh-button" AnchorPane.leftAnchor="755.0" AnchorPane.topAnchor="100.0" />
-   <CheckBox fx:id="checkbox_advanced" mnemonicParsing="false" onAction="#onAdvanced" text="Advanced" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="155.0" />
+   <CheckBox fx:id="checkbox_exclude" mnemonicParsing="false" onAction="#onExclude" text="Exclude" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="155.0" />
+   <CheckBox fx:id="checkbox_include" layoutX="448.0" layoutY="155.0" mnemonicParsing="false" onAction="#onInclude" text="Include" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="155.0" />
 </AnchorPane>

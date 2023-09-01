@@ -3,42 +3,52 @@ package lt.ffda.revancedcligui.controller;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import lt.ffda.revancedcligui.dto.PatchDto;
 import lt.ffda.revancedcligui.tasks.ListPatches;
+import lt.ffda.revancedcligui.tasks.UpdatePatchListInclude;
 
-public class TabAdvancedController {
+import java.util.ArrayList;
+
+public class TabIncludeController {
     @FXML
     private VBox content;
+    @FXML
+    private ComboBox<String> packages;
+    private final ArrayList<PatchDto> patches = new ArrayList<>();
 
     /**
      * Executes the task that load all available patches.
      * Available patches list retrieved from ReVanced-CLI using -l flag.
      * @param revancedCli ReVanced-CLI to retrieve available patch list
-     * @param youtubeApk YouTube apk to retrieve available patch list. (Comments in revanved-cli shows that it most likely will be removed in the future)
      * @param revancedPatches revanced-patched.apk to read the patch list from
      */
-    public void loadPatches(String revancedCli, String youtubeApk, String revancedPatches) {
-        new Thread(new ListPatches(String.format("java -jar %1$s -a %2$s -b %3$s -l",
+    public void loadPatches(String revancedCli, String revancedPatches) {
+        new Thread(new ListPatches(String.format("java -jar %1$s list-patches -p %2$s",
                 revancedCli,
-                youtubeApk,
                 revancedPatches
-        ), this.content)).start();
+        ), this.content, this.packages, this.patches)).start();
     }
 
     /**
      * Creates a string will all user selected patches to exclude
      * @return string with all patches to exclude
      */
-    public String getExcludedPatches() {
+    public String getIncludedPatches() {
         StringBuilder stringBuilder = new StringBuilder();
         for (Node node : this.content.getChildren()) {
             HBox hBox = (HBox) node;
             CheckBox checkBox = (CheckBox) hBox.getChildren().get(0);
             if (checkBox.isSelected()) {
-                stringBuilder.append(String.format(" -e %1$s", checkBox.getText()));
+                stringBuilder.append(String.format(" -i %1$s", checkBox.getText().toLowerCase().replace(" ", "-")));
             }
         }
         return stringBuilder.toString();
+    }
+
+    public void onPackageSelected() {
+        new Thread(new UpdatePatchListInclude(this.content, this.patches, this.packages.getSelectionModel().getSelectedItem())).start();
     }
 }

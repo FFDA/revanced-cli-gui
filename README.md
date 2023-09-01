@@ -9,8 +9,10 @@ Portable GUI for ReVanced-Cli.
 * On start up fetches and prints supported YouTube versions by latest [ReVanced-Patches](https://github.com/revanced/revanced-patches)
 * On button click it can check for latest versions of [ReVanced-Cli](https://github.com/revanced/revanced-cli), [ReVanced-Patches](https://github.com/revanced/revanced-patches), [ReVanced-Integrations](https://github.com/revanced/revanced-integrations) and [Vanced MicroG](https://github.com/inotia00/VancedMicroG) on GitHub. If newer version found - downloads them.
 * List all connected ADB devices, user can choose the device to install the patched app too.
+* Patches can be included or excluded from patching process
 
 ## Requirements
+* **Supports only Revanced-CLI 3.x.x**
 * Java 17 (or any other version compatible with Revanced-Cli)
 * ADB should be in the path, however it's possible to choose an option in Settings to use embedded ADB. Program will create a bin folder in root and save it there.
 
