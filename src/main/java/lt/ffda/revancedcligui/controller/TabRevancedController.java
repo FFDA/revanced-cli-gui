@@ -184,7 +184,7 @@ public class TabRevancedController {
     private String getMicroGCommand() {
         return String.format("%1$s -s %2$s install %3$s",
                 Adb.getInstance().getAdb(),
-                this.combobox_devices.getValue(),
+                this.combobox_devices.getValue().split(" - ")[0],
                 Resource.VANCED_MICROG.getFolderName() + File.separatorChar + this.combobox_vanced_microg.getValue());
     }
 

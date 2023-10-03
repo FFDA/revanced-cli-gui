@@ -98,7 +98,7 @@ public class ResourceCheck extends Task<Void> {
                 Platform.runLater(() -> textArea.appendText(String.format("%1$s is already at the latest version\n", resource.getName())));
             }
         } catch (IOException e) {
-            this.textArea.appendText(String.format("Exception while downloading %1$s", resource.getName()));
+            this.textArea.appendText(String.format("Exception while downloading %1$s\n", resource.getName()));
         }
         return null;
     }
