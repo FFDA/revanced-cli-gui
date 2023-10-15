@@ -10,6 +10,7 @@ import lt.ffda.revancedcligui.tasks.ResourceCheck;
 import javafx.fxml.FXML;
 import lt.ffda.revancedcligui.util.*;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.*;
 import java.net.URL;
@@ -45,7 +46,6 @@ public class TabRevancedController {
     private ChangeListener<String> revancedPatchesChangeListener;
 
     public void initialize() {
-        this.getSupportedYoutubeVersion();
         new Thread(new DeviceCheck(this.combobox_devices, this.text_area)).start();
         this.revancedPatchesChangeListener = (observableValue, oldValue, newValue) -> {
             if (checkbox_exclude.isSelected()) {
@@ -113,19 +113,6 @@ public class TabRevancedController {
         this.onRevancedPatchesRefresh();
         this.onRevancedIntegrationsRefresh();
         this.onVancedMicroGRefresh();
-    }
-
-    /**
-     * Retrieves from ReVanced GitHub and displays in TextArea all supported YouTube versions
-     */
-    private void getSupportedYoutubeVersion() {
-        try (InputStream inputStream = new URL("https://github.com/ReVanced/revanced-patches/raw/main/patches.json").openStream()) {
-            String jsonString = new String(inputStream.readAllBytes());
-            JSONArray versionArray = new JSONArray(jsonString).getJSONObject(0).getJSONArray("compatiblePackages").getJSONObject(0).getJSONArray("versions");
-            this.text_area.appendText(String.format("Supported youtube version by the latest patches: %1$s\n", versionArray.toString()));
-        } catch (IOException e) {
-            this.text_area.appendText("Error occurred while list supported youtube version. No internet connection?\n");
-        }
     }
 
     /**
