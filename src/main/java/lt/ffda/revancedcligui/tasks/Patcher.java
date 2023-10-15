@@ -7,6 +7,7 @@ import javafx.scene.control.TextArea;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class Patcher extends Task<Void> {
     private final TextArea textArea;
@@ -17,9 +18,9 @@ public class Patcher extends Task<Void> {
      * @param command command to use
      * @param textArea text area to print messages for the user
      */
-    public Patcher(String command, TextArea textArea) {
+    public Patcher(ArrayList<String> command, TextArea textArea) {
         this.textArea = textArea;
-        this.processBuilder = new ProcessBuilder(command.trim().split("\\s+"))
+        this.processBuilder = new ProcessBuilder(command)
                 .redirectErrorStream(true);
         exceptionProperty().addListener((observable, oldException, newException) -> {
             if (newException != null) {

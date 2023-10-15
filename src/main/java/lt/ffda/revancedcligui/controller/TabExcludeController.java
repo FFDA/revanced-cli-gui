@@ -36,16 +36,17 @@ public class TabExcludeController {
      * Creates a string will all user selected patches to exclude
      * @return string with all patches to exclude
      */
-    public String getExcludedPatches() {
-        StringBuilder stringBuilder = new StringBuilder();
+    public ArrayList<String> getExcludedPatches() {
+        ArrayList<String> excludePatches = new ArrayList<>();
         for (Node node : this.content.getChildren()) {
             HBox hBox = (HBox) node;
             CheckBox checkBox = (CheckBox) hBox.getChildren().get(0);
             if (checkBox.isSelected()) {
-                stringBuilder.append(String.format(" -e %1$s", checkBox.getText().toLowerCase().replace(" ", "-")));
+                excludePatches.add("-e");
+                excludePatches.add(checkBox.getText());
             }
         }
-        return stringBuilder.toString();
+        return excludePatches;
     }
 
     /**

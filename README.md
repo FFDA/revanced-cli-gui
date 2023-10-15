@@ -12,7 +12,7 @@ Portable GUI for ReVanced-Cli.
 * Patches can be included or excluded from patching process
 
 ## Requirements
-* **Supports only Revanced-CLI 3.x.x**
+* **Supports only Revanced-CLI 4.x.x**
 * Java 17 (or any other version compatible with Revanced-Cli)
 * ADB should be in the path, however it's possible to choose an option in Settings to use embedded ADB. Program will create a bin folder in root and save it there.
 

@@ -36,16 +36,17 @@ public class TabIncludeController {
      * Creates a string will all user selected patches to exclude
      * @return string with all patches to exclude
      */
-    public String getIncludedPatches() {
-        StringBuilder stringBuilder = new StringBuilder();
+    public ArrayList<String> getIncludedPatches() {
+        ArrayList<String> includePatches = new ArrayList<>();
         for (Node node : this.content.getChildren()) {
             HBox hBox = (HBox) node;
             CheckBox checkBox = (CheckBox) hBox.getChildren().get(0);
             if (checkBox.isSelected()) {
-                stringBuilder.append(String.format(" -i %1$s", checkBox.getText().toLowerCase().replace(" ", "-")));
+                includePatches.add("-i");
+                includePatches.add(checkBox.getText());
             }
         }
-        return stringBuilder.toString();
+        return includePatches;
     }
 
     public void onPackageSelected() {

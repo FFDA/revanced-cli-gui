@@ -9,13 +9,12 @@ import lt.ffda.revancedcligui.tasks.Patcher;
 import lt.ffda.revancedcligui.tasks.ResourceCheck;
 import javafx.fxml.FXML;
 import lt.ffda.revancedcligui.util.*;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.*;
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
@@ -121,7 +120,7 @@ public class TabRevancedController {
     public void patchAndInstall() {
         if (this.areResourceSelected()) {
             ExecutorService executorService = Executors.newSingleThreadExecutor();
-            for (String command: getCommands()) {
+            for (ArrayList<String> command: getCommands()) {
                 executorService.submit(new Patcher(command, this.text_area));
             }
             executorService.shutdown();
@@ -143,36 +142,58 @@ public class TabRevancedController {
 
     /**
      * Creates a command with user selected resources for patching and installing apk
+     *
      * @return command with user selected resources
      */
-    private String[] getCommands() {
+    private List<ArrayList<String>> getCommands() {
         String patchedApk = this.combobox_youtube_apk.getValue().contains("youtube") ? this.combobox_youtube_apk.getValue().replace("youtube", "revanced_youtube") : String.format("revanced_%1$s", this.combobox_youtube_apk.getValue());
-        String commandPatch = String.format("java -jar %1$s patch %2$s -b %3$s -m %4$s%5$s%6$s -o %7$s %8$s",
-                Resource.REVANCED_CLI.getFolderName() + File.separatorChar + this.combobox_revanced_cli.getValue(),
-                Preferences.getInstance().getPreferenceValue(Preference.CLEAN_TEMPORARY_FILES) ? " -p" : "",
-                Resource.REVANCED_PATCHES.getFolderName() + File.separatorChar + this.combobox_revanced_patches.getValue(),
-                Resource.REVANCED_INTEGRATIONS.getFolderName() + File.separatorChar + this.combobox_revanced_integration.getValue(),
-                this.checkbox_exclude.isSelected() ? this.tabExcludeController.getExcludedPatches() : "",
-                this.checkbox_include.isSelected() ? this.tabIncludeController.getIncludedPatches() : "",
-                patchedApk,
-                Resource.YOUTUBE_APK.getFolderName() + File.separatorChar + this.combobox_youtube_apk.getValue()
-        );
-        String commandInstall = String.format("java -jar %1$s utility install -a %2$s %3$s",
-                Resource.REVANCED_CLI.getFolderName() + File.separatorChar + this.combobox_revanced_cli.getValue(),
-                patchedApk,
-                this.combobox_devices.getValue().split(" - ")[0]);
-        return new String[]{commandPatch, commandInstall};
+        ArrayList<String> commandPatch = new ArrayList<>();
+        commandPatch.add("java");
+        commandPatch.add("-jar");
+        commandPatch.add(Resource.REVANCED_CLI.getFolderName() + File.separatorChar + this.combobox_revanced_cli.getValue());
+        commandPatch.add("patch");
+        if (Preferences.getInstance().getPreferenceValue(Preference.CLEAN_TEMPORARY_FILES)) {
+            commandPatch.add("-p");
+        }
+        commandPatch.add("-b");
+        commandPatch.add(Resource.REVANCED_PATCHES.getFolderName() + File.separatorChar + this.combobox_revanced_patches.getValue());
+        commandPatch.add("-m");
+        commandPatch.add(Resource.REVANCED_INTEGRATIONS.getFolderName() + File.separatorChar + this.combobox_revanced_integration.getValue());
+        if (this.checkbox_exclude.isSelected()) {
+            commandPatch.addAll(this.tabExcludeController.getExcludedPatches());
+        }
+        if (this.checkbox_include.isSelected()) {
+            commandPatch.addAll(this.tabIncludeController.getIncludedPatches());
+        }
+        commandPatch.add("-o");
+        commandPatch.add(patchedApk);
+        commandPatch.add(Resource.YOUTUBE_APK.getFolderName() + File.separatorChar + this.combobox_youtube_apk.getValue());
+
+        ArrayList<String> commandInstall = new ArrayList<>();
+        commandInstall.add("java");
+        commandInstall.add("-jar");
+        commandInstall.add(Resource.REVANCED_CLI.getFolderName() + File.separatorChar + this.combobox_revanced_cli.getValue());
+        commandInstall.add("utility");
+        commandInstall.add("install");
+        commandInstall.add("-a");
+        commandInstall.add(patchedApk);
+        commandInstall.add(this.combobox_devices.getValue().split(" - ")[0]);
+
+        return new ArrayList<>(Arrays.asList(commandPatch, commandInstall));
     }
 
     /**
      * Creates a command to install MicroG with user selected MicroG version
      * @return command to install MicroG
      */
-    private String getMicroGCommand() {
-        return String.format("%1$s -s %2$s install %3$s",
-                Adb.getInstance().getAdb(),
-                this.combobox_devices.getValue().split(" - ")[0],
-                Resource.VANCED_MICROG.getFolderName() + File.separatorChar + this.combobox_vanced_microg.getValue());
+    private ArrayList<String> getMicroGCommand() {
+        ArrayList<String> installMicroGCommand = new ArrayList<>();
+        installMicroGCommand.add("Adb.getInstance().getAdb()");
+        installMicroGCommand.add("-s");
+        installMicroGCommand.add(this.combobox_devices.getValue().split(" - ")[0]);
+        installMicroGCommand.add("install");
+        installMicroGCommand.add(Resource.VANCED_MICROG.getFolderName() + File.separatorChar + this.combobox_vanced_microg.getValue());
+        return installMicroGCommand;
     }
 
     /**
