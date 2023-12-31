@@ -188,7 +188,7 @@ public class TabRevancedController {
      */
     private ArrayList<String> getMicroGCommand() {
         ArrayList<String> installMicroGCommand = new ArrayList<>();
-        installMicroGCommand.add("Adb.getInstance().getAdb()");
+        installMicroGCommand.add(Adb.getInstance().getAdb());
         installMicroGCommand.add("-s");
         installMicroGCommand.add(this.combobox_devices.getValue().split(" - ")[0]);
         installMicroGCommand.add("install");
