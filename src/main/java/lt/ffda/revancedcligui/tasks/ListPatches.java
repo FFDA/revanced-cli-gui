@@ -11,6 +11,8 @@ import lt.ffda.revancedcligui.util.CreateUiElement;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -92,9 +94,10 @@ public class ListPatches extends Task<Void> {
         ArrayList<HBox> patchesUiList = new ArrayList<>(); // This that will be added to VBox content do be displayed for user
         ArrayList<String> patchPackages = new ArrayList<>(); // Stores unique package names
         tempPatches.forEach(p -> {
-                    patchesUiList.add(CreateUiElement.patchLine(p.getName(), p.getDescription()));
-                    p.getPackageName().forEach(m -> {if (!patchPackages.contains(m)) patchPackages.add(m);});
+            patchesUiList.add(CreateUiElement.patchLine(p.getName(), p.getDescription()));
+            p.getPackageName().forEach(m -> {if (!patchPackages.contains(m)) patchPackages.add(m);});
         });
+        Collections.sort(patchPackages);
         Platform.runLater(() -> {
             this.content.getChildren().addAll(patchesUiList);
             this.packagesCombobox.getItems().setAll(patchPackages);
