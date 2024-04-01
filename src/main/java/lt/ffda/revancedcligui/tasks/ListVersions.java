@@ -7,6 +7,7 @@ import lt.ffda.revancedcligui.util.Resource;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.util.*;
 
 /**
  * Uses revanced-cli command to list all supported YouTube apk versions
@@ -38,11 +39,16 @@ public class ListVersions extends Task<Void> {
         BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
         StringBuilder output = new StringBuilder("Supported YouTube apk versions: ");
         String line;
+        List<String> versions = new ArrayList();
         while ((line = stdInput.readLine()) != null) {
             if (line.contains("patches")) {
-                output.append(line.trim());
-                output.append(", ");
+                versions.add(line.trim());
             }
+        }
+        Collections.sort(versions, Comparator.reverseOrder());
+        for (String version : versions) {
+            output.append(version);
+            output.append(", ");
         }
         output.delete(output.length() - 2, output.length());
         output.append('\n');
