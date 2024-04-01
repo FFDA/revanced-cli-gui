@@ -5,7 +5,7 @@ public enum Resource {
     REVANCED_CLI("Revanced CLI","revanced-cli", "https://api.github.com/repos/revanced/revanced-cli/releases"),
     REVANCED_PATCHES("Revanced patches","revanced-patches", "https://api.github.com/repos/revanced/revanced-patches/releases"),
     REVANCED_INTEGRATIONS("Revanced integrations","revanced-integrations", "https://api.github.com/repos/revanced/revanced-integrations/releases"),
-    VANCED_MICROG("Vanced MicroG", "vanced-microg", "https://api.github.com/repos/inotia00/VancedMicroG/releases"),
+    MICROG("microG", "microg", "https://api.github.com/repos/revanced/gmscore/releases"),
     ADB("Android Debugging Bridge", "bin", "https://developer.android.com/tools/releases/platform-tools");
 
     private final String name;

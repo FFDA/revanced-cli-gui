@@ -3,9 +3,7 @@ package lt.ffda.revancedcligui;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lt.ffda.revancedcligui.util.Adb;
 import lt.ffda.revancedcligui.util.Preference;
@@ -46,7 +44,7 @@ public class RevancedCliGui extends Application {
         new File(Resource.REVANCED_CLI.getFolderName()).mkdir();
         new File(Resource.REVANCED_PATCHES.getFolderName()).mkdir();
         new File(Resource.REVANCED_INTEGRATIONS.getFolderName()).mkdir();
-        new File(Resource.VANCED_MICROG.getFolderName()).mkdir();
+        new File(Resource.MICROG.getFolderName()).mkdir();
         if (Preferences.getInstance().getPreferenceValue(Preference.USE_EMBEDDED_ADB)) {
             Adb.getInstance().saveAdb();
         }

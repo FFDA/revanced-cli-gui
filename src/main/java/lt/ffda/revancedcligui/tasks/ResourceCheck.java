@@ -68,14 +68,14 @@ public class ResourceCheck extends Task<Void> {
                     continue;
                 }
                 switch (resource) {
-                    case REVANCED_CLI, REVANCED_INTEGRATIONS, VANCED_MICROG -> releaseJson = releasesArray.getJSONObject(i).getJSONArray("assets").getJSONObject(0);
+                    case REVANCED_CLI, REVANCED_INTEGRATIONS, MICROG -> releaseJson = releasesArray.getJSONObject(i).getJSONArray("assets").getJSONObject(0);
                     case REVANCED_PATCHES -> releaseJson = releasesArray.getJSONObject(i).getJSONArray("assets").getJSONObject(1);
                     default -> {
                         Platform.runLater(() -> textArea.appendText(String.format("%1$s resource is not supported", resource.getName())));
                         return null;
                     }
                 }
-                if (resource == Resource.VANCED_MICROG) {
+                if (resource == Resource.MICROG) {
                     filename = String.format("microg_%1$s.apk", releasesArray.getJSONObject(i).getString("tag_name"));
                 } else {
                     filename = releaseJson.getString("name");

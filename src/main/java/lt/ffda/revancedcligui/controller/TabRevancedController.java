@@ -88,7 +88,7 @@ public class TabRevancedController {
                 Preferences.getInstance().getPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES)
         ));
         executorService.submit(new ResourceCheck(
-                Resource.VANCED_MICROG,
+                Resource.MICROG,
                 this.text_area,
                 combobox_vanced_microg,
                 Preferences.getInstance().getPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES)
@@ -192,7 +192,7 @@ public class TabRevancedController {
         installMicroGCommand.add("-s");
         installMicroGCommand.add(this.combobox_devices.getValue().split(" - ")[0]);
         installMicroGCommand.add("install");
-        installMicroGCommand.add(Resource.VANCED_MICROG.getFolderName() + File.separatorChar + this.combobox_vanced_microg.getValue());
+        installMicroGCommand.add(Resource.MICROG.getFolderName() + File.separatorChar + this.combobox_vanced_microg.getValue());
         return installMicroGCommand;
     }
 
@@ -293,7 +293,7 @@ public class TabRevancedController {
      */
     public void onVancedMicroGRefresh() {
         this.combobox_vanced_microg.getItems().setAll(
-                Arrays.stream(new File(Resource.VANCED_MICROG.getFolderName()).list())
+                Arrays.stream(new File(Resource.MICROG.getFolderName()).list())
                         .sorted(Comparator.reverseOrder())
                         .collect(Collectors.toList())
         );
