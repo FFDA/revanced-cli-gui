@@ -12,13 +12,12 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Uses revacned-cli command to list all available patches and adds them to UI for user to choose
+ * Uses revanced-cli command to list all available patches and adds them to UI for user to choose
  */
 public class ListPatches extends Task<Void> {
     private final String command;

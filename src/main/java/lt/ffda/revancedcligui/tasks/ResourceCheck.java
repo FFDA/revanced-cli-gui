@@ -21,6 +21,7 @@ public class ResourceCheck extends Task<Void> {
     private final ComboBox<String> comboBox;
     private final boolean downloadDevReleases;
     private final ChangeListener<String> changeListener;
+    private final ResourceCheckCallback resourceCheckCallback;
 
     /**
      * Checks for new version of the resource.
@@ -31,12 +32,13 @@ public class ResourceCheck extends Task<Void> {
      * @param downloadDevReleases true - do download pre releases
      * @param changeListener pass ChangeListener of the combobox if it has one to disable it
      */
-    public ResourceCheck(Resource resource, TextArea textArea, ComboBox<String> comboBox, boolean downloadDevReleases, ChangeListener<String> changeListener) {
+    public ResourceCheck(Resource resource, TextArea textArea, ComboBox<String> comboBox, boolean downloadDevReleases, ChangeListener<String> changeListener, ResourceCheckCallback resourceCheckCallback) {
         this.resource = resource;
         this.textArea = textArea;
         this.comboBox = comboBox;
         this.downloadDevReleases = downloadDevReleases;
         this.changeListener = changeListener;
+        this.resourceCheckCallback = resourceCheckCallback;
     }
 
     /**
@@ -47,8 +49,8 @@ public class ResourceCheck extends Task<Void> {
      * @param comboBox resource combo box to update if new resource was found
      * @param downloadDevReleases true - do download pre releases
      */
-    public ResourceCheck(Resource resource, TextArea textArea, ComboBox<String> comboBox, boolean downloadDevReleases) {
-        this(resource, textArea, comboBox, downloadDevReleases, null);
+    public ResourceCheck(Resource resource, TextArea textArea, ComboBox<String> comboBox, boolean downloadDevReleases, ResourceCheckCallback resourceCheckCallback) {
+        this(resource, textArea, comboBox, downloadDevReleases, null, resourceCheckCallback);
     }
 
     @Override
@@ -89,6 +91,7 @@ public class ResourceCheck extends Task<Void> {
             String finalFilename = filename;
             String downloadUrl = releaseJson.getString("browser_download_url");
             File newRelease = new File(resource.getFolderName() + File.separatorChar + finalFilename);
+            // Tries to create new file. If it fails it means that file already exists
             if (newRelease.createNewFile()) {
                 Platform.runLater(() -> textArea.appendText(String.format("Found a new version of %1$s. Downloading. Filename: %2$s\n", resource.getName(), finalFilename)));
                 this.downloadNewResource(downloadUrl, newRelease);
@@ -134,6 +137,9 @@ public class ResourceCheck extends Task<Void> {
                 this.comboBox.getSelectionModel().selectedItemProperty().addListener(this.changeListener);
             }
             this.comboBox.getSelectionModel().select(0);
+            if (this.resourceCheckCallback != null) {
+                this.resourceCheckCallback.callback();
+            }
         });
     }
 }

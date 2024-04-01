@@ -6,5 +6,6 @@ package lt.ffda.revancedcligui.util;
 public enum Preference {
     USE_EMBEDDED_ADB,
     DOWNLOAD_DEV_RELEASES,
-    CLEAN_TEMPORARY_FILES
+    CLEAN_TEMPORARY_FILES,
+    PRINT_SUPPORTED_VERSIONS
 }

@@ -3,17 +3,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="lt.ffda.revancedcligui.controller.TabSettingsController">
-    <CheckBox fx:id="download_dev_releases" mnemonicParsing="false" onAction="#onDownloadDevReleases"
-              text="Download pre-releases" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0"/>
-    <CheckBox fx:id="use_embedded_adb" mnemonicParsing="false" onAction="#onUseEmbeddedAdb" text="Use embedded ADB"
-              AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="50.0"/>
-    <CheckBox fx:id="clean_temp_files" mnemonicParsing="false" onAction="#onCleanTempFiles"
-              text="Clean the temporary resource cache directory" AnchorPane.leftAnchor="20.0"
-              AnchorPane.topAnchor="80.0">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lt.ffda.revancedcligui.controller.TabSettingsController">
+    <CheckBox fx:id="download_dev_releases" mnemonicParsing="false" onAction="#onDownloadDevReleases" text="Download pre-releases" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0" />
+    <CheckBox fx:id="use_embedded_adb" mnemonicParsing="false" onAction="#onUseEmbeddedAdb" text="Use embedded ADB" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="50.0" />
+    <CheckBox fx:id="clean_temp_files" mnemonicParsing="false" onAction="#onCleanTempFiles" text="Clean the temporary resource cache directory" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="80.0">
         <tooltip>
-            <Tooltip text="Removes revanced-cache and patched apk file"/>
+            <Tooltip text="Removes revanced-cache directory" />
         </tooltip>
     </CheckBox>
+    <CheckBox fx:id="print_supported_versions" layoutX="21.0" layoutY="114.0" mnemonicParsing="false" onAction="#onPrintSupportedVersions" text="Print supported YouTube versions on startup" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="110.0" />
 </AnchorPane>

@@ -46,6 +46,7 @@ public class Preferences {
             fileWriter.write(String.format("%1$s=%2$d\n", Preference.USE_EMBEDDED_ADB, 0));
             fileWriter.write(String.format("%1$s=%2$d\n", Preference.DOWNLOAD_DEV_RELEASES, 0));
             fileWriter.write(String.format("%1$s=%2$d\n", Preference.CLEAN_TEMPORARY_FILES, 0));
+            fileWriter.write(String.format("%1$s=%2$d\n", Preference.PRINT_SUPPORTED_VERSIONS, 1));
             fileWriter.flush();
             fileWriter.close();
         } catch (IOException e) {
@@ -63,10 +64,14 @@ public class Preferences {
     /**
      * Returns preference value of the provided preference
      * @param preference preference of which value to return
-     * @return true - preference is enabled, else - false
+     * @return true - preference is enabled, false - preference is disabled, or it does not exist in the file
      */
     public boolean getPreferenceValue(Preference preference) {
-        return this.preferences.get(preference.name()) == 1;
+        if (this.preferences.containsKey(preference.name())) {
+            return this.preferences.get(preference.name()) == 1;
+        } else {
+            return false;
+        }
     }
 
     /**

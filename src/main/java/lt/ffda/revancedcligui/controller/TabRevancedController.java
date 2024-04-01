@@ -4,9 +4,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import lt.ffda.revancedcligui.tasks.DeviceCheck;
-import lt.ffda.revancedcligui.tasks.Patcher;
-import lt.ffda.revancedcligui.tasks.ResourceCheck;
+import lt.ffda.revancedcligui.tasks.*;
 import javafx.fxml.FXML;
 import lt.ffda.revancedcligui.util.*;
 
@@ -60,6 +58,9 @@ public class TabRevancedController {
         };
         this.combobox_revanced_patches.getSelectionModel().selectedItemProperty().addListener(this.revancedPatchesChangeListener);
         this.populateComboboxes();
+        if (Preferences.getInstance().getPreferenceValue(Preference.PRINT_SUPPORTED_VERSIONS)) {
+            this.printSupportedVersions();
+        }
     }
 
     /**
@@ -79,26 +80,37 @@ public class TabRevancedController {
                 Resource.REVANCED_CLI,
                 this.text_area,
                 combobox_revanced_cli,
-                Preferences.getInstance().getPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES)
+                Preferences.getInstance().getPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
+                null
                 ));
         executorService.submit(new ResourceCheck(
                 Resource.REVANCED_INTEGRATIONS,
                 this.text_area,
                 combobox_revanced_integration,
-                Preferences.getInstance().getPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES)
+                Preferences.getInstance().getPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
+                null
         ));
         executorService.submit(new ResourceCheck(
                 Resource.MICROG,
                 this.text_area,
                 combobox_vanced_microg,
-                Preferences.getInstance().getPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES)
+                Preferences.getInstance().getPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
+                null
         ));
         executorService.submit(new ResourceCheck(
                 Resource.REVANCED_PATCHES,
                 this.text_area,
                 combobox_revanced_patches,
                 Preferences.getInstance().getPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
-                revancedPatchesChangeListener
+                revancedPatchesChangeListener,
+                new ResourceCheckCallback() {
+                    @Override
+                    public void callback() {
+                        if (Preferences.getInstance().getPreferenceValue(Preference.PRINT_SUPPORTED_VERSIONS)) {
+                            printSupportedVersions();
+                        }
+                    }
+                }
         ));
         executorService.shutdown();
     }
@@ -377,5 +389,12 @@ public class TabRevancedController {
                 Resource.REVANCED_CLI.getFolderName() + File.separatorChar + this.combobox_revanced_cli.getValue(),
                 Resource.REVANCED_PATCHES.getFolderName() + File.separatorChar + this.combobox_revanced_patches.getValue()
         );
+    }
+
+    /**
+     * Prints supported YouTube version to the TextArea
+     */
+    private void printSupportedVersions() {
+        new Thread(new ListVersions(this.text_area, this.combobox_revanced_cli.getValue(), this.combobox_revanced_patches.getValue())).start();
     }
 }
