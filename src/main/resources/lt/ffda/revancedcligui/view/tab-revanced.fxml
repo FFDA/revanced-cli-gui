@@ -23,7 +23,7 @@
         </tooltip>
     </Button>
     <Button mnemonicParsing="false" onAction="#installMicroG" text="Install MicroG" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="150.0" />
-    <Button mnemonicParsing="false" onAction="#patchAndInstall" text="Patch and install" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="230.0" />
+    <Button minWidth="100.0" mnemonicParsing="false" onAction="#patchAndInstall" prefWidth="100.0" text="Patch" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="230.0" />
     <Button mnemonicParsing="false" onAction="#onYoutubeApkRefresh" styleClass="refresh-button" AnchorPane.leftAnchor="355.0" AnchorPane.topAnchor="20.0" />
     <Button mnemonicParsing="false" onAction="#onRevancedCliRefresh" styleClass="refresh-button" AnchorPane.leftAnchor="755.0" AnchorPane.topAnchor="20.0" />
     <Button mnemonicParsing="false" onAction="#onRevancedPatchesRefresh" styleClass="refresh-button" AnchorPane.leftAnchor="355.0" AnchorPane.topAnchor="60.0" />
@@ -32,4 +32,5 @@
     <Button mnemonicParsing="false" onAction="#onDevicesRefresh" styleClass="refresh-button" AnchorPane.leftAnchor="755.0" AnchorPane.topAnchor="100.0" />
    <CheckBox fx:id="checkbox_exclude" mnemonicParsing="false" onAction="#onExclude" text="Exclude" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="155.0" />
    <CheckBox fx:id="checkbox_include" layoutX="448.0" layoutY="155.0" mnemonicParsing="false" onAction="#onInclude" text="Include" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="155.0" />
+    <CheckBox fx:id="checkbox_install" layoutX="322.0" layoutY="233.0" mnemonicParsing="false" onAction="#onInstall" text="Install after patching" AnchorPane.leftAnchor="320.0" AnchorPane.topAnchor="234.0" />
 </AnchorPane>

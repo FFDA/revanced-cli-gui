@@ -39,6 +39,8 @@ public class TabRevancedController {
     private CheckBox checkbox_exclude;
     @FXML
     private CheckBox checkbox_include;
+    @FXML
+    private CheckBox checkbox_install;
     // Needed as a variable that it could be removed at appropriate time when refreshing the list
     private ChangeListener<String> revancedPatchesChangeListener;
 
@@ -61,6 +63,7 @@ public class TabRevancedController {
         if (Preferences.getInstance().getPreferenceValue(Preference.PRINT_SUPPORTED_VERSIONS)) {
             this.printSupportedVersions();
         }
+        this.checkbox_install.setSelected(Preferences.getInstance().getPreferenceValue(Preference.INSTALL_AFTER_PATCH));
     }
 
     /**
@@ -103,12 +106,9 @@ public class TabRevancedController {
                 combobox_revanced_patches,
                 Preferences.getInstance().getPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
                 revancedPatchesChangeListener,
-                new ResourceCheckCallback() {
-                    @Override
-                    public void callback() {
-                        if (Preferences.getInstance().getPreferenceValue(Preference.PRINT_SUPPORTED_VERSIONS)) {
-                            printSupportedVersions();
-                        }
+                () -> {
+                    if (Preferences.getInstance().getPreferenceValue(Preference.PRINT_SUPPORTED_VERSIONS)) {
+                        printSupportedVersions();
                     }
                 }
         ));
@@ -133,7 +133,9 @@ public class TabRevancedController {
         if (this.areResourceSelected()) {
             ExecutorService executorService = Executors.newSingleThreadExecutor();
             for (ArrayList<String> command: getCommands()) {
-                executorService.submit(new Patcher(command, this.text_area));
+                if (command != null) {
+                    executorService.submit(new Patcher(command, this.text_area));
+                }
             }
             executorService.shutdown();
         } else {
@@ -180,17 +182,18 @@ public class TabRevancedController {
         commandPatch.add("-o");
         commandPatch.add(patchedApk);
         commandPatch.add(Resource.YOUTUBE_APK.getFolderName() + File.separatorChar + this.combobox_youtube_apk.getValue());
-
-        ArrayList<String> commandInstall = new ArrayList<>();
-        commandInstall.add("java");
-        commandInstall.add("-jar");
-        commandInstall.add(Resource.REVANCED_CLI.getFolderName() + File.separatorChar + this.combobox_revanced_cli.getValue());
-        commandInstall.add("utility");
-        commandInstall.add("install");
-        commandInstall.add("-a");
-        commandInstall.add(patchedApk);
-        commandInstall.add(this.combobox_devices.getValue().split(" - ")[0]);
-
+        ArrayList<String> commandInstall = null;
+        if (Preferences.getInstance().getPreferenceValue(Preference.INSTALL_AFTER_PATCH)) {
+            commandInstall = new ArrayList<>();
+            commandInstall.add("java");
+            commandInstall.add("-jar");
+            commandInstall.add(Resource.REVANCED_CLI.getFolderName() + File.separatorChar + this.combobox_revanced_cli.getValue());
+            commandInstall.add("utility");
+            commandInstall.add("install");
+            commandInstall.add("-a");
+            commandInstall.add(patchedApk);
+            commandInstall.add(this.combobox_devices.getValue().split(" - ")[0]);
+        }
         return new ArrayList<>(Arrays.asList(commandPatch, commandInstall));
     }
 
@@ -226,7 +229,7 @@ public class TabRevancedController {
             this.text_area.appendText("Please select a Revanced Patches version\n");
             selected = false;
         }
-        if (this.combobox_devices.getValue()== null || this.combobox_devices.getValue().isEmpty()) {
+        if (Preferences.getInstance().getPreferenceValue(Preference.INSTALL_AFTER_PATCH) && (this.combobox_devices.getValue()== null || this.combobox_devices.getValue().isEmpty())) {
             this.text_area.appendText("Please select a device\n");
             selected = false;
         }
@@ -396,5 +399,12 @@ public class TabRevancedController {
      */
     private void printSupportedVersions() {
         new Thread(new ListVersions(this.text_area, this.combobox_revanced_cli.getValue(), this.combobox_revanced_patches.getValue())).start();
+    }
+
+    /**
+     * Action on checking/unchecking of "Install" checkbox
+     */
+    public void onInstall() {
+        Preferences.getInstance().setPreferenceValue(Preference.INSTALL_AFTER_PATCH, this.checkbox_install.isSelected());
     }
 }
