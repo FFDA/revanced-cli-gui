@@ -12,7 +12,7 @@
     <ComboBox fx:id="combobox_revanced_patches" prefWidth="180.0" AnchorPane.leftAnchor="170.0" AnchorPane.topAnchor="60.0" />
     <Label minHeight="30.0" text="Revanced Integrations" AnchorPane.leftAnchor="400.0" AnchorPane.topAnchor="60.0" />
     <ComboBox fx:id="combobox_revanced_integration" prefWidth="180.0" AnchorPane.leftAnchor="570.0" AnchorPane.topAnchor="60.0" />
-    <Label minHeight="30.0" text="microG" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="100.0" />
+    <Label minHeight="30.0" text="MicroG" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="100.0" />
     <ComboBox fx:id="combobox_vanced_microg" prefWidth="180.0" AnchorPane.leftAnchor="170.0" AnchorPane.topAnchor="100.0" />
     <TextArea fx:id="text_area" editable="false" prefHeight="300.0" prefWidth="200.0" wrapText="true" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="275.0" />
     <Label minHeight="30.0" text="Device" AnchorPane.leftAnchor="400.0" AnchorPane.topAnchor="100.0" />
