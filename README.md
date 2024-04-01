@@ -7,7 +7,7 @@ Portable GUI for ReVanced-Cli.
 
 ## Features
 * On start up fetches and prints supported YouTube versions by latest [ReVanced-Patches](https://github.com/revanced/revanced-patches)
-* On button click it can check for latest versions of [ReVanced-Cli](https://github.com/revanced/revanced-cli), [ReVanced-Patches](https://github.com/revanced/revanced-patches), [ReVanced-Integrations](https://github.com/revanced/revanced-integrations) and [Vanced MicroG](https://github.com/inotia00/VancedMicroG) on GitHub. If newer version found - downloads them.
+* On button click it can check for latest versions of [ReVanced-Cli](https://github.com/revanced/revanced-cli), [ReVanced-Patches](https://github.com/revanced/revanced-patches), [ReVanced-Integrations](https://github.com/revanced/revanced-integrations) and [GsmCore](https://github.com/ReVanced/GmsCore) (MicroG) on GitHub. If newer version found - downloads them.
 * List all connected ADB devices, user can choose the device to install the patched app too.
 * Patches can be included or excluded from patching process
 
@@ -23,7 +23,7 @@ For Windows launch the exe in root folder
 
 For Linux launch the executable in bin folder
 
-At the start up program will create bunch of folder where it will store all dependencies. While it can and will download [ReVanced-Cli](https://github.com/revanced/revanced-cli), [ReVanced-Patches](https://github.com/revanced/revanced-patches), [ReVanced-Integrations](https://github.com/revanced/revanced-integrations) and [Vanced MicroG](https://github.com/inotia00/VancedMicroG) user will have to download YouTube apk by himself ant place it in youtube-apk folder.
+At the startup program will create a bunch of folders where it will store all dependencies. While it can and will download [ReVanced-Cli](https://github.com/revanced/revanced-cli), [ReVanced-Patches](https://github.com/revanced/revanced-patches), [ReVanced-Integrations](https://github.com/revanced/revanced-integrations) and [GsmCOre](https://github.com/ReVanced/GmsCore) (MicroG) user will have to download YouTube apk by himself ant place it in youtube-apk folder.
 
 ## Compiling
 ### Requirements:
