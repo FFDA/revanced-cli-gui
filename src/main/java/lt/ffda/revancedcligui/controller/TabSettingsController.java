@@ -15,12 +15,15 @@ public class TabSettingsController {
     private CheckBox clean_temp_files;
     @FXML
     private CheckBox print_supported_versions;
+    @FXML
+    private CheckBox use_keystore_file;
 
     public void initialize() {
         this.download_dev_releases.setSelected(Preferences.getInstance().getPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES));
         this.use_embedded_adb.setSelected(Preferences.getInstance().getPreferenceValue(Preference.USE_EMBEDDED_ADB));
         this.clean_temp_files.setSelected(Preferences.getInstance().getPreferenceValue(Preference.CLEAN_TEMPORARY_FILES));
         this.print_supported_versions.setSelected(Preferences.getInstance().getPreferenceValue(Preference.PRINT_SUPPORTED_VERSIONS));
+        this.use_keystore_file.setSelected(Preferences.getInstance().getPreferenceValue(Preference.USE_KEYSTORE_FILE));
     }
 
     /**
@@ -55,5 +58,12 @@ public class TabSettingsController {
      */
     public void onPrintSupportedVersions() {
         Preferences.getInstance().setPreferenceValue(Preference.PRINT_SUPPORTED_VERSIONS, this.print_supported_versions.isSelected());
+    }
+
+    /**
+     * Saves checkbox state to preferences.
+     */
+    public void onUseKeystoreFile() {
+        Preferences.getInstance().setPreferenceValue(Preference.USE_KEYSTORE_FILE, this.use_keystore_file.isSelected());
     }
 }

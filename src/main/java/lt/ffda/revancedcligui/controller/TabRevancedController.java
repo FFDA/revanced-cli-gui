@@ -166,6 +166,9 @@ public class TabRevancedController {
         commandPatch.add("-jar");
         commandPatch.add(Resource.REVANCED_CLI.getFolderName() + File.separatorChar + this.combobox_revanced_cli.getValue());
         commandPatch.add("patch");
+        if (Preferences.getInstance().getPreferenceValue(Preference.USE_KEYSTORE_FILE)) {
+            commandPatch.add("--keystore=yt-ks.keystore");
+        }
         if (Preferences.getInstance().getPreferenceValue(Preference.CLEAN_TEMPORARY_FILES)) {
             commandPatch.add("-p");
         }

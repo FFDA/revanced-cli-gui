@@ -11,5 +11,10 @@
             <Tooltip text="Removes revanced-cache directory" />
         </tooltip>
     </CheckBox>
-    <CheckBox fx:id="print_supported_versions" layoutX="21.0" layoutY="114.0" mnemonicParsing="false" onAction="#onPrintSupportedVersions" text="Print supported YouTube versions on startup" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="110.0" />
+    <CheckBox fx:id="print_supported_versions" layoutX="20.0" layoutY="110.0" mnemonicParsing="false" onAction="#onPrintSupportedVersions" text="Print supported YouTube versions on startup" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="110.0" />
+    <CheckBox fx:id="use_keystore_file" layoutX="20.0" layoutY="140.0" mnemonicParsing="false" onAction="#onUseKeystoreFile" text="Use keystore file">
+        <tooltip>
+            <Tooltip text="Uses yt-ks.keystore file that is in the same folder as executable file" />
+        </tooltip>
+    </CheckBox>
 </AnchorPane>
