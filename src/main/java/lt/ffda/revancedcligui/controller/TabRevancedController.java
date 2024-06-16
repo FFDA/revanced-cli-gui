@@ -32,7 +32,7 @@ public class TabRevancedController {
     @FXML
     private ComboBox<String> combobox_revanced_integration;
     @FXML
-    private ComboBox<String> combobox_vanced_microg;
+    private ComboBox<String> combobox_microg;
     @FXML
     private ComboBox<String> combobox_devices;
     @FXML
@@ -100,7 +100,7 @@ public class TabRevancedController {
         executorService.submit(new ResourceCheck(
                 Resource.MICROG,
                 this.text_area,
-                combobox_vanced_microg,
+                combobox_microg,
                 Preferences.getInstance().getPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
                 null
         ));
@@ -214,7 +214,7 @@ public class TabRevancedController {
         installMicroGCommand.add("-s");
         installMicroGCommand.add(this.combobox_devices.getValue().split(" - ")[0]);
         installMicroGCommand.add("install");
-        installMicroGCommand.add(Resource.MICROG.getFolderName() + File.separatorChar + this.combobox_vanced_microg.getValue());
+        installMicroGCommand.add(Resource.MICROG.getFolderName() + File.separatorChar + this.combobox_microg.getValue());
         return installMicroGCommand;
     }
 
@@ -253,7 +253,7 @@ public class TabRevancedController {
             this.text_area.appendText("Please select a device\n");
             selected = false;
         }
-        if (this.combobox_vanced_microg.getValue() == null || this.combobox_vanced_microg.getValue().isEmpty()) {
+        if (this.combobox_microg.getValue() == null || this.combobox_microg.getValue().isEmpty()) {
             this.text_area.appendText("Please select a MicroG apk\n");
             selected = false;
         }
@@ -314,12 +314,12 @@ public class TabRevancedController {
      * Refresh microG apk file list
      */
     public void onMicroGRefresh() {
-        this.combobox_vanced_microg.getItems().setAll(
+        this.combobox_microg.getItems().setAll(
                 Arrays.stream(new File(Resource.MICROG.getFolderName()).list())
                         .sorted(Comparator.reverseOrder())
                         .collect(Collectors.toList())
         );
-        this.combobox_vanced_microg.getSelectionModel().select(0);
+        this.combobox_microg.getSelectionModel().select(0);
     }
 
     /**
