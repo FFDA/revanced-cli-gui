@@ -17,4 +17,5 @@
             <Tooltip text="Uses yt-ks.keystore file that is in the same folder as executable file" />
         </tooltip>
     </CheckBox>
+   <CheckBox fx:id="print_patch_command" layoutX="20.0" layoutY="170.0" mnemonicParsing="false" onAction="#onPrintPatchCommand" text="Print patch command" />
 </AnchorPane>

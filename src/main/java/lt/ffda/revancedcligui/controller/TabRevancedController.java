@@ -136,7 +136,11 @@ public class TabRevancedController {
     public void patchAndInstall() {
         if (this.areResourceSelected()) {
             ExecutorService executorService = Executors.newSingleThreadExecutor();
-            for (ArrayList<String> command: getCommands()) {
+            List<ArrayList<String>> commands = getCommands();
+            if (Preferences.getInstance().getPreferenceValue(Preference.PRINT_PATCH_COMMAND)) {
+                this.printPatchCommand(commands.get(0));
+            }
+            for (ArrayList<String> command: commands) {
                 if (command != null) {
                     executorService.submit(new Patcher(command, this.text_area));
                 }
@@ -443,5 +447,14 @@ public class TabRevancedController {
         });
         contextMenu.getItems().add(menuItemClear);
         this.text_area.setContextMenu(contextMenu);
+    }
+
+    /**
+     * Prints command to textArea that will be used to patch the apk file
+     */
+    private void printPatchCommand(ArrayList<String> command) {
+        StringBuilder commandText = new StringBuilder("Patching command: ");
+        commandText.append(String.join(" ", command)).append('\n');
+        this.text_area.appendText(commandText.toString());
     }
 }
