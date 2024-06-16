@@ -43,6 +43,7 @@ public class TabRevancedController {
     private CheckBox checkbox_install;
     // Needed as a variable that it could be removed at appropriate time when refreshing the list
     private ChangeListener<String> revancedPatchesChangeListener;
+    private VersionComparator vc = new VersionComparator();
 
     public void initialize() {
         new Thread(new DeviceCheck(this.combobox_devices, this.text_area)).start();
@@ -123,7 +124,7 @@ public class TabRevancedController {
         this.onRevancedCliRefresh();
         this.onRevancedPatchesRefresh();
         this.onRevancedIntegrationsRefresh();
-        this.onVancedMicroGRefresh();
+        this.onMicroGRefresh();
     }
 
     /**
@@ -274,7 +275,7 @@ public class TabRevancedController {
     public void onRevancedCliRefresh() {
         this.combobox_revanced_cli.getItems().setAll(
                 Arrays.stream(new File(Resource.REVANCED_CLI.getFolderName()).list())
-                        .sorted(Comparator.reverseOrder())
+                        .sorted(this.vc)
                         .collect(Collectors.toList())
         );
         this.combobox_revanced_cli.getSelectionModel().select(0);
@@ -287,7 +288,7 @@ public class TabRevancedController {
         this.combobox_revanced_patches.getSelectionModel().selectedItemProperty().removeListener(this.revancedPatchesChangeListener);
         this.combobox_revanced_patches.getItems().setAll(
                 Arrays.stream(new File(Resource.REVANCED_PATCHES.getFolderName()).list())
-                        .sorted(Comparator.reverseOrder())
+                        .sorted(this.vc)
                         .collect(Collectors.toList())
         );
         this.combobox_revanced_patches.getSelectionModel().selectedItemProperty().addListener(this.revancedPatchesChangeListener);
@@ -300,16 +301,16 @@ public class TabRevancedController {
     public void onRevancedIntegrationsRefresh() {
         this.combobox_revanced_integration.getItems().setAll(
                 Arrays.stream(new File(Resource.REVANCED_INTEGRATIONS.getFolderName()).list())
-                        .sorted(Comparator.reverseOrder())
+                        .sorted((this.vc))
                         .collect(Collectors.toList())
         );
         this.combobox_revanced_integration.getSelectionModel().select(0);
     }
 
     /**
-     * Refresh ReVanced Patches apk file list
+     * Refresh microG apk file list
      */
-    public void onVancedMicroGRefresh() {
+    public void onMicroGRefresh() {
         this.combobox_vanced_microg.getItems().setAll(
                 Arrays.stream(new File(Resource.MICROG.getFolderName()).list())
                         .sorted(Comparator.reverseOrder())
