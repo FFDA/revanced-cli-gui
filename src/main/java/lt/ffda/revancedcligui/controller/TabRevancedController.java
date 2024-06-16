@@ -43,7 +43,7 @@ public class TabRevancedController {
     private CheckBox checkbox_install;
     // Needed as a variable that it could be removed at appropriate time when refreshing the list
     private ChangeListener<String> revancedPatchesChangeListener;
-    private VersionComparator vc = new VersionComparator();
+    private final VersionComparator vc = new VersionComparator();
 
     public void initialize() {
         new Thread(new DeviceCheck(this.combobox_devices, this.text_area)).start();
