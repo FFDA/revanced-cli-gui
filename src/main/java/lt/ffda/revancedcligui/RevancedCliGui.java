@@ -37,7 +37,7 @@ public class RevancedCliGui extends Application {
     }
 
     /**
-     * Creates folder structure where all downloaded files will be stored
+     * Creates folder structure for program to store files
      */
     private void createFolderStructure() {
         new File(Resource.YOUTUBE_APK.getFolderName()).mkdir();
@@ -45,6 +45,7 @@ public class RevancedCliGui extends Application {
         new File(Resource.REVANCED_PATCHES.getFolderName()).mkdir();
         new File(Resource.REVANCED_INTEGRATIONS.getFolderName()).mkdir();
         new File(Resource.MICROG.getFolderName()).mkdir();
+        new File(Resource.PATCHED_APKS.getFolderName()).mkdir();
         if (Preferences.getInstance().getPreferenceValue(Preference.USE_EMBEDDED_ADB)) {
             Adb.getInstance().saveAdb();
         }

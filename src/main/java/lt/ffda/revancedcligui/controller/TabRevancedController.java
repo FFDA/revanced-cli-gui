@@ -160,7 +160,6 @@ public class TabRevancedController {
      * @return command with user selected resources
      */
     private List<ArrayList<String>> getCommands() {
-        String patchedApk = this.combobox_youtube_apk.getValue().contains("youtube") ? this.combobox_youtube_apk.getValue().replace("youtube", "revanced_youtube") : String.format("revanced_%1$s", this.combobox_youtube_apk.getValue());
         ArrayList<String> commandPatch = new ArrayList<>();
         commandPatch.add("java");
         commandPatch.add("-jar");
@@ -183,7 +182,8 @@ public class TabRevancedController {
             commandPatch.addAll(this.tabIncludeController.getIncludedPatches());
         }
         commandPatch.add("-o");
-        commandPatch.add(patchedApk);
+        String outputPath = getOutputPath();
+        commandPatch.add(outputPath);
         commandPatch.add(Resource.YOUTUBE_APK.getFolderName() + File.separatorChar + this.combobox_youtube_apk.getValue());
         ArrayList<String> commandInstall = null;
         if (Preferences.getInstance().getPreferenceValue(Preference.INSTALL_AFTER_PATCH)) {
@@ -194,7 +194,7 @@ public class TabRevancedController {
             commandInstall.add("utility");
             commandInstall.add("install");
             commandInstall.add("-a");
-            commandInstall.add(patchedApk);
+            commandInstall.add(outputPath);
             commandInstall.add(this.combobox_devices.getValue().split(" - ")[0]);
         }
         return new ArrayList<>(Arrays.asList(commandPatch, commandInstall));
@@ -409,5 +409,18 @@ public class TabRevancedController {
      */
     public void onInstall() {
         Preferences.getInstance().setPreferenceValue(Preference.INSTALL_AFTER_PATCH, this.checkbox_install.isSelected());
+    }
+
+    /**
+     * Creates path with filename where the patch will be saved. If file selected for patching has word "youtube" in it,
+     * it will be changed to "revanced_youtube. If it does not contain word "youtube" "revanced_" will be prepended to
+     * the file name.
+     * @return path where patched file will be saved
+     */
+    private String getOutputPath() {
+        String patchedApkFilename = this.combobox_youtube_apk.getValue().contains("youtube") ? this.combobox_youtube_apk.getValue().replace("youtube", "revanced_youtube") : String.format("revanced_%1$s", this.combobox_youtube_apk.getValue());
+        StringBuilder outputPath = new StringBuilder();
+        outputPath.append(Resource.PATCHED_APKS.getFolderName()).append(File.separatorChar).append(patchedApkFilename);
+        return outputPath.toString();
     }
 }

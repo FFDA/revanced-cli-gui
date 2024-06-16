@@ -6,7 +6,8 @@ public enum Resource {
     REVANCED_PATCHES("Revanced patches","revanced-patches", "https://api.github.com/repos/revanced/revanced-patches/releases"),
     REVANCED_INTEGRATIONS("Revanced integrations","revanced-integrations", "https://api.github.com/repos/revanced/revanced-integrations/releases"),
     MICROG("microG", "microg", "https://api.github.com/repos/revanced/gmscore/releases"),
-    ADB("Android Debugging Bridge", "bin", "https://developer.android.com/tools/releases/platform-tools");
+    ADB("Android Debugging Bridge", "bin", "https://developer.android.com/tools/releases/platform-tools"),
+    PATCHED_APKS("Patched APKs", "patched-apks", "");;
 
     private final String name;
     private final String folderName;
