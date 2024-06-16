@@ -3,18 +3,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="lt.ffda.revancedcligui.controller.TabIncludeController"
-            prefHeight="400.0" prefWidth="600.0">
-    <Label alignment="CENTER"
-           text="Some patches are excluded by default. In addition to selected package's patches those packages are listed too."
-           textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0"
-           AnchorPane.topAnchor="10.0"/>
-    <ComboBox fx:id="packages" layoutX="225.0" layoutY="40.0" onAction="#onPackageSelected" prefWidth="300.0"
-              AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="50.0"/>
-    <ScrollPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0"
-                AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="90.0">
-        <VBox fx:id="content"/>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lt.ffda.revancedcligui.controller.TabIncludeController">
+    <Label alignment="CENTER" text="Some patches are excluded by default. In addition to selected package's patches those packages are listed too." textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0" />
+    <ComboBox fx:id="packages" layoutX="225.0" layoutY="40.0" onAction="#onPackageSelected" prefWidth="300.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="50.0" />
+    <ScrollPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="90.0">
+        <VBox fx:id="content" />
     </ScrollPane>
+   <TextField fx:id="filter" layoutX="342.0" layoutY="50.0" prefHeight="23.0" prefWidth="225.0" AnchorPane.leftAnchor="340.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="50.0" />
 </AnchorPane>

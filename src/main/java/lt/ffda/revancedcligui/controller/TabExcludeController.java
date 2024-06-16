@@ -4,11 +4,13 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import lt.ffda.revancedcligui.dto.PatchDto;
 import lt.ffda.revancedcligui.tasks.ListPatches;
 import lt.ffda.revancedcligui.tasks.UpdatePatchListExclude;
+import lt.ffda.revancedcligui.util.PatchFilterListener;
 
 import java.util.ArrayList;
 
@@ -17,7 +19,13 @@ public class TabExcludeController {
     private VBox content;
     @FXML
     private ComboBox<String> packages;
+    @FXML
+    private TextField filter;
     private ArrayList<PatchDto> patches = new ArrayList<>();
+
+    public void initialize() {
+        this.filter.textProperty().addListener(new PatchFilterListener(this.content));
+    }
 
     /**
      * Executes the task that load all available patches.

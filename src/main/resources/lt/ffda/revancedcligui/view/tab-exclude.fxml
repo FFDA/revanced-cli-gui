@@ -15,4 +15,5 @@
                 AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="90.0">
         <VBox fx:id="content"/>
     </ScrollPane>
+    <TextField fx:id="filter" layoutX="342.0" layoutY="50.0" prefHeight="23.0" prefWidth="225.0" AnchorPane.leftAnchor="340.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="50.0" />
 </AnchorPane>
