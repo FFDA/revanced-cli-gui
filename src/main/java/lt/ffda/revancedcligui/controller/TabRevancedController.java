@@ -1,6 +1,8 @@
 package lt.ffda.revancedcligui.controller;
 
 import javafx.beans.value.ChangeListener;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -65,6 +67,7 @@ public class TabRevancedController {
             this.printSupportedVersions();
         }
         this.checkbox_install.setSelected(Preferences.getInstance().getPreferenceValue(Preference.INSTALL_AFTER_PATCH));
+        this.setTextAreaContextMenu();
     }
 
     /**
@@ -423,5 +426,22 @@ public class TabRevancedController {
         StringBuilder outputPath = new StringBuilder();
         outputPath.append(Resource.PATCHED_APKS.getFolderName()).append(File.separatorChar).append(patchedApkFilename);
         return outputPath.toString();
+    }
+
+    /**
+     * Creates custom contextMenu for text area where output of all processes are printed out. Only has a button to
+     * clear the text area.
+     */
+    private void setTextAreaContextMenu() {
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem menuItemClear = new MenuItem("Clear");
+        menuItemClear.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                text_area.clear();
+            }
+        });
+        contextMenu.getItems().add(menuItemClear);
+        this.text_area.setContextMenu(contextMenu);
     }
 }
