@@ -25,6 +25,8 @@ For Linux launch the executable in bin folder
 
 At the startup program will create a bunch of folders where it will store all dependencies. While it can and will download [ReVanced-Cli](https://github.com/revanced/revanced-cli), [ReVanced-Patches](https://github.com/revanced/revanced-patches), [ReVanced-Integrations](https://github.com/revanced/revanced-integrations) and [GsmCOre](https://github.com/ReVanced/GmsCore) (MicroG) user will have to download YouTube apk by himself ant place it in youtube-apk folder.
 
+To use specific keystore file to sign the apk it has to be placed in the same folder as executable file of the program and has to be named "yt-ks.keystore".
+
 ## Compiling
 ### Requirements:
 * Java 17
