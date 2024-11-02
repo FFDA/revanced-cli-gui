@@ -9,11 +9,10 @@ import java.util.*;
 
 /**
  * Preference singleton. Saves preferences in the same folder as all other files for portability
- * All preferences are booleans
  */
 public class Preferences {
     private final static Preferences instance = new Preferences();
-    private final Map<String, Byte> preferences = Collections.synchronizedMap(new HashMap<>());
+    private final Map<Preference, Object> preferences = Collections.synchronizedMap(new HashMap<>());
 
     private Preferences() {
         try {
@@ -24,7 +23,7 @@ public class Preferences {
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 String[] preference = scanner.nextLine().split("=");
-                this.preferences.put(preference[0], Byte.valueOf(preference[1]));
+                preferences.put(Preference.valueOf(preference[0]), preference[1]);
             }
             scanner.close();
         } catch (IOException e) {
@@ -48,6 +47,7 @@ public class Preferences {
             fileWriter.write(String.format("%1$s=%2$d\n", Preference.CLEAN_TEMPORARY_FILES, 0));
             fileWriter.write(String.format("%1$s=%2$d\n", Preference.PRINT_SUPPORTED_VERSIONS, 1));
             fileWriter.write(String.format("%1$s=%2$d\n", Preference.INSTALL_AFTER_PATCH, 0));
+            fileWriter.write(String.format("%1$s=%2$s\n", Preference.API_VERSION, ApiVersion.V4));
             fileWriter.flush();
             fileWriter.close();
         } catch (IOException e) {
@@ -59,29 +59,58 @@ public class Preferences {
      * Initiates writing of current preferences
      */
     private void writePreferences() {
-        new Thread(new WritePreferences(this.preferences)).start();
+        new Thread(new WritePreferences(preferences)).start();
     }
 
     /**
-     * Returns preference value of the provided preference
+     * Returns boolean value of the provided preference if it's set in the conf.prefs file
      * @param preference preference of which value to return
-     * @return true - preference is enabled, false - preference is disabled, or it does not exist in the file
+     * @return true - preference is enabled, false - preference is disabled, it does not exist in the file, or it's a string preference
      */
-    public boolean getPreferenceValue(Preference preference) {
-        if (this.preferences.containsKey(preference.name())) {
-            return this.preferences.get(preference.name()) == 1;
+    public boolean getBooleanPreferenceValue(Preference preference) {
+        if (preference.getType() == 1) {
+            return false;
+        }
+        if (preferences.containsKey(preference)) {
+            return Integer.valueOf(1).equals(preferences.get(preference));
         } else {
             return false;
         }
     }
 
     /**
-     * Sets preference to the provided boolean value
+     * Sets preference to the provided boolean value. Writes changes to file.
      * @param preference preference of which value has to be change
      * @param value value of the preference
      */
-    public void setPreferenceValue(Preference preference, boolean value) {
-        this.preferences.put(preference.name(), value ? (byte) 1 : (byte) 0);
-        this.writePreferences();
+    public void setBooleanPreferenceValue(Preference preference, boolean value) {
+        preferences.put(preference, value ? (byte) 1 : (byte) 0);
+        writePreferences();
+    }
+
+    /**
+     * Returns string value of the provided preference if it exists in the file
+     * @param preference preference of which value to return
+     * @return string value of the preference, null - if it does not exist in conf.prefs file, or it is boolean preference
+     */
+    public String getStringPreferenceValue(Preference preference) {
+        if (preference.getType() == 0) {
+            return null;
+        }
+        if (preferences.containsKey(preference)) {
+            return (String) preferences.get(preference);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Sets preference to the provided string value. Writes changes to file.
+     * @param preference preference to change/set value for
+     * @param value value of the preference to set
+     */
+    public void setStringPreferenceValue(Preference preference, String value) {
+        preferences.put(preference, value);
+        writePreferences();
     }
 }

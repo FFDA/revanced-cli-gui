@@ -21,7 +21,7 @@ public class Adb {
      * Creates path to ADB executable depending on OS and if program should use embedded one or not
      */
     public void initAdb() {
-        if (Preferences.getInstance().getPreferenceValue(Preference.USE_EMBEDDED_ADB)) {
+        if (Preferences.getInstance().getBooleanPreferenceValue(Preference.USE_EMBEDDED_ADB)) {
             if (System.getProperty("os.name").equals("Linux")) {
                 adb = Resource.ADB.getFolderName() + File.separatorChar + "adb";
             } else {

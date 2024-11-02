@@ -16,7 +16,7 @@ import java.io.IOException;
 public class RevancedCliGui extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        this.createFolderStructure();
+        createFolderStructure();
         FXMLLoader fxmlLoader = new FXMLLoader(RevancedCliGui.class.getResource("view/main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 800, 650);
         stage.setTitle("Revanced-CLI-GUI");
@@ -46,7 +46,7 @@ public class RevancedCliGui extends Application {
         new File(Resource.REVANCED_INTEGRATIONS.getFolderName()).mkdir();
         new File(Resource.MICROG.getFolderName()).mkdir();
         new File(Resource.PATCHED_APKS.getFolderName()).mkdir();
-        if (Preferences.getInstance().getPreferenceValue(Preference.USE_EMBEDDED_ADB)) {
+        if (Preferences.getInstance().getBooleanPreferenceValue(Preference.USE_EMBEDDED_ADB)) {
             Adb.getInstance().saveAdb();
         }
     }

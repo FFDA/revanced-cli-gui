@@ -63,10 +63,10 @@ public class TabRevancedController {
         };
         this.combobox_revanced_patches.getSelectionModel().selectedItemProperty().addListener(this.revancedPatchesChangeListener);
         this.populateComboboxes();
-        if (Preferences.getInstance().getPreferenceValue(Preference.PRINT_SUPPORTED_VERSIONS)) {
+        if (Preferences.getInstance().getBooleanPreferenceValue(Preference.PRINT_SUPPORTED_VERSIONS)) {
             this.printSupportedVersions();
         }
-        this.checkbox_install.setSelected(Preferences.getInstance().getPreferenceValue(Preference.INSTALL_AFTER_PATCH));
+        this.checkbox_install.setSelected(Preferences.getInstance().getBooleanPreferenceValue(Preference.INSTALL_AFTER_PATCH));
         this.setTextAreaContextMenu();
     }
 
@@ -87,31 +87,31 @@ public class TabRevancedController {
                 Resource.REVANCED_CLI,
                 this.text_area,
                 combobox_revanced_cli,
-                Preferences.getInstance().getPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
+                Preferences.getInstance().getBooleanPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
                 null
                 ));
         executorService.submit(new ResourceCheck(
                 Resource.REVANCED_INTEGRATIONS,
                 this.text_area,
                 combobox_revanced_integration,
-                Preferences.getInstance().getPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
+                Preferences.getInstance().getBooleanPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
                 null
         ));
         executorService.submit(new ResourceCheck(
                 Resource.MICROG,
                 this.text_area,
                 combobox_microg,
-                Preferences.getInstance().getPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
+                Preferences.getInstance().getBooleanPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
                 null
         ));
         executorService.submit(new ResourceCheck(
                 Resource.REVANCED_PATCHES,
                 this.text_area,
                 combobox_revanced_patches,
-                Preferences.getInstance().getPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
+                Preferences.getInstance().getBooleanPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
                 revancedPatchesChangeListener,
                 () -> {
-                    if (Preferences.getInstance().getPreferenceValue(Preference.PRINT_SUPPORTED_VERSIONS)) {
+                    if (Preferences.getInstance().getBooleanPreferenceValue(Preference.PRINT_SUPPORTED_VERSIONS)) {
                         printSupportedVersions();
                     }
                 }
@@ -137,7 +137,7 @@ public class TabRevancedController {
         if (this.areResourceSelected()) {
             ExecutorService executorService = Executors.newSingleThreadExecutor();
             List<ArrayList<String>> commands = getCommands();
-            if (Preferences.getInstance().getPreferenceValue(Preference.PRINT_PATCH_COMMAND)) {
+            if (Preferences.getInstance().getBooleanPreferenceValue(Preference.PRINT_PATCH_COMMAND)) {
                 this.printPatchCommand(commands.get(0));
             }
             for (ArrayList<String> command: commands) {
@@ -173,10 +173,10 @@ public class TabRevancedController {
         commandPatch.add("-jar");
         commandPatch.add(Resource.REVANCED_CLI.getFolderName() + File.separatorChar + this.combobox_revanced_cli.getValue());
         commandPatch.add("patch");
-        if (Preferences.getInstance().getPreferenceValue(Preference.USE_KEYSTORE_FILE)) {
+        if (Preferences.getInstance().getBooleanPreferenceValue(Preference.USE_KEYSTORE_FILE)) {
             commandPatch.add("--keystore=yt-ks.keystore");
         }
-        if (Preferences.getInstance().getPreferenceValue(Preference.CLEAN_TEMPORARY_FILES)) {
+        if (Preferences.getInstance().getBooleanPreferenceValue(Preference.CLEAN_TEMPORARY_FILES)) {
             commandPatch.add("-p");
         }
         commandPatch.add("-b");
@@ -194,7 +194,7 @@ public class TabRevancedController {
         commandPatch.add(outputPath);
         commandPatch.add(Resource.YOUTUBE_APK.getFolderName() + File.separatorChar + this.combobox_youtube_apk.getValue());
         ArrayList<String> commandInstall = null;
-        if (Preferences.getInstance().getPreferenceValue(Preference.INSTALL_AFTER_PATCH)) {
+        if (Preferences.getInstance().getBooleanPreferenceValue(Preference.INSTALL_AFTER_PATCH)) {
             commandInstall = new ArrayList<>();
             commandInstall.add("java");
             commandInstall.add("-jar");
@@ -240,7 +240,7 @@ public class TabRevancedController {
             this.text_area.appendText("Please select a Revanced Patches version\n");
             selected = false;
         }
-        if (Preferences.getInstance().getPreferenceValue(Preference.INSTALL_AFTER_PATCH) && (this.combobox_devices.getValue()== null || this.combobox_devices.getValue().isEmpty())) {
+        if (Preferences.getInstance().getBooleanPreferenceValue(Preference.INSTALL_AFTER_PATCH) && (this.combobox_devices.getValue()== null || this.combobox_devices.getValue().isEmpty())) {
             this.text_area.appendText("Please select a device\n");
             selected = false;
         }
@@ -416,7 +416,7 @@ public class TabRevancedController {
      * Action on checking/unchecking of "Install" checkbox
      */
     public void onInstall() {
-        Preferences.getInstance().setPreferenceValue(Preference.INSTALL_AFTER_PATCH, this.checkbox_install.isSelected());
+        Preferences.getInstance().setBooleanPreferenceValue(Preference.INSTALL_AFTER_PATCH, this.checkbox_install.isSelected());
     }
 
     /**

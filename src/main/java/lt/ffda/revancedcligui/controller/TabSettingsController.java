@@ -21,27 +21,27 @@ public class TabSettingsController {
     private CheckBox print_patch_command;
 
     public void initialize() {
-        this.download_dev_releases.setSelected(Preferences.getInstance().getPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES));
-        this.use_embedded_adb.setSelected(Preferences.getInstance().getPreferenceValue(Preference.USE_EMBEDDED_ADB));
-        this.clean_temp_files.setSelected(Preferences.getInstance().getPreferenceValue(Preference.CLEAN_TEMPORARY_FILES));
-        this.print_supported_versions.setSelected(Preferences.getInstance().getPreferenceValue(Preference.PRINT_SUPPORTED_VERSIONS));
-        this.use_keystore_file.setSelected(Preferences.getInstance().getPreferenceValue(Preference.USE_KEYSTORE_FILE));
-        this.print_patch_command.setSelected(Preferences.getInstance().getPreferenceValue(Preference.PRINT_PATCH_COMMAND));
+        download_dev_releases.setSelected(Preferences.getInstance().getBooleanPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES));
+        use_embedded_adb.setSelected(Preferences.getInstance().getBooleanPreferenceValue(Preference.USE_EMBEDDED_ADB));
+        clean_temp_files.setSelected(Preferences.getInstance().getBooleanPreferenceValue(Preference.CLEAN_TEMPORARY_FILES));
+        print_supported_versions.setSelected(Preferences.getInstance().getBooleanPreferenceValue(Preference.PRINT_SUPPORTED_VERSIONS));
+        use_keystore_file.setSelected(Preferences.getInstance().getBooleanPreferenceValue(Preference.USE_KEYSTORE_FILE));
+        print_patch_command.setSelected(Preferences.getInstance().getBooleanPreferenceValue(Preference.PRINT_PATCH_COMMAND));
     }
 
     /**
      * Saves checkbox state to preferences.
      */
     public void onDownloadDevReleases() {
-        Preferences.getInstance().setPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES, this.download_dev_releases.isSelected());
+        Preferences.getInstance().setBooleanPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES, download_dev_releases.isSelected());
     }
 
     /**
      * Saves checkbox state to preferences. Depending on the state creates ADB resources in root folder.
      */
     public void onUseEmbeddedAdb() {
-        Preferences.getInstance().setPreferenceValue(Preference.USE_EMBEDDED_ADB, this.use_embedded_adb.isSelected());
-        if (this.use_embedded_adb.isSelected()) {
+        Preferences.getInstance().setBooleanPreferenceValue(Preference.USE_EMBEDDED_ADB, use_embedded_adb.isSelected());
+        if (use_embedded_adb.isSelected()) {
             Adb.getInstance().saveAdb();
         } else {
             Adb.getInstance().killAdbServer();
@@ -53,27 +53,27 @@ public class TabSettingsController {
      * Saves checkbox state to preferences.
      */
     public void onCleanTempFiles() {
-        Preferences.getInstance().setPreferenceValue(Preference.CLEAN_TEMPORARY_FILES, this.clean_temp_files.isSelected());
+        Preferences.getInstance().setBooleanPreferenceValue(Preference.CLEAN_TEMPORARY_FILES, clean_temp_files.isSelected());
     }
 
     /**
      * Saves checkbox state to preferences.
      */
     public void onPrintSupportedVersions() {
-        Preferences.getInstance().setPreferenceValue(Preference.PRINT_SUPPORTED_VERSIONS, this.print_supported_versions.isSelected());
+        Preferences.getInstance().setBooleanPreferenceValue(Preference.PRINT_SUPPORTED_VERSIONS, print_supported_versions.isSelected());
     }
 
     /**
      * Saves checkbox state to preferences.
      */
     public void onUseKeystoreFile() {
-        Preferences.getInstance().setPreferenceValue(Preference.USE_KEYSTORE_FILE, this.use_keystore_file.isSelected());
+        Preferences.getInstance().setBooleanPreferenceValue(Preference.USE_KEYSTORE_FILE, use_keystore_file.isSelected());
     }
 
     /**
      * Saves checkbox state to preferences.
      */
     public void onPrintPatchCommand() {
-        Preferences.getInstance().setPreferenceValue(Preference.PRINT_PATCH_COMMAND, this.print_patch_command.isSelected());
+        Preferences.getInstance().setBooleanPreferenceValue(Preference.PRINT_PATCH_COMMAND, print_patch_command.isSelected());
     }
 }
