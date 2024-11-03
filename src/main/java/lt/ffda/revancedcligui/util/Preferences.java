@@ -47,7 +47,6 @@ public class Preferences {
             fileWriter.write(String.format("%1$s=%2$d\n", Preference.CLEAN_TEMPORARY_FILES, 0));
             fileWriter.write(String.format("%1$s=%2$d\n", Preference.PRINT_SUPPORTED_VERSIONS, 1));
             fileWriter.write(String.format("%1$s=%2$d\n", Preference.INSTALL_AFTER_PATCH, 0));
-            fileWriter.write(String.format("%1$s=%2$s\n", Preference.API_VERSION, ApiVersion.V4));
             fileWriter.flush();
             fileWriter.close();
         } catch (IOException e) {
@@ -72,7 +71,7 @@ public class Preferences {
             return false;
         }
         if (preferences.containsKey(preference)) {
-            return Integer.valueOf(1).equals(preferences.get(preference));
+            return "1".equals(preferences.get(preference));
         } else {
             return false;
         }
@@ -84,7 +83,7 @@ public class Preferences {
      * @param value value of the preference
      */
     public void setBooleanPreferenceValue(Preference preference, boolean value) {
-        preferences.put(preference, value ? (byte) 1 : (byte) 0);
+        preferences.put(preference, value ? "1" : "0");
         writePreferences();
     }
 
