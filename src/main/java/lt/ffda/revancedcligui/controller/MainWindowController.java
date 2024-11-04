@@ -8,12 +8,15 @@ public class MainWindowController {
     private TabPane main_window;
     @FXML
     private TabRevancedController tab_revancedController;
+    @FXML
+    private TabSettingsController tab_settingsController;
 
     public void initialize() {
-        this.tab_revancedController.setMainWindowController(this);
+        tab_revancedController.setMainWindowController(this);
+        tab_settingsController.setTabRevancedController(tab_revancedController);
     }
 
     public TabPane getTabPane() {
-        return this.main_window;
+        return main_window;
     }
 }

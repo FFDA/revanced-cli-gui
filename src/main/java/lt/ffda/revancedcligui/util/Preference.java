@@ -10,7 +10,8 @@ public enum Preference {
     PRINT_SUPPORTED_VERSIONS(0),
     INSTALL_AFTER_PATCH(0),
     USE_KEYSTORE_FILE(0),
-    PRINT_PATCH_COMMAND(0);
+    PRINT_PATCH_COMMAND(0),
+    API_VERSION(1);
 
     private final Integer type;
 

@@ -34,8 +34,8 @@ public class UpdatePatchListInclude extends Task<Void> {
                 newPatchList.add(CreateUiElement.patchLine(p.getName(), p.getDescription()));
         });
         Platform.runLater(() -> {
-            this.content.getChildren().clear();
-            this.content.getChildren().addAll(newPatchList);
+            content.getChildren().clear();
+            content.getChildren().addAll(newPatchList);
         });
         return null;
     }

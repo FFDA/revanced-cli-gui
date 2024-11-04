@@ -18,4 +18,6 @@
         </tooltip>
     </CheckBox>
    <CheckBox fx:id="print_patch_command" layoutX="20.0" layoutY="170.0" mnemonicParsing="false" onAction="#onPrintPatchCommand" text="Print patch command" />
+    <Label layoutX="20.0" layoutY="200.0" text="API version" />
+    <ComboBox fx:id="api_version" layoutX="102.0" layoutY="196.0" onAction="#onApiVersionChange" prefWidth="150.0" />
 </AnchorPane>
