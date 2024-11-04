@@ -47,7 +47,7 @@ public class Preferences {
             fileWriter.write(String.format("%1$s=%2$d\n", Preference.CLEAN_TEMPORARY_FILES, 0));
             fileWriter.write(String.format("%1$s=%2$d\n", Preference.PRINT_SUPPORTED_VERSIONS, 1));
             fileWriter.write(String.format("%1$s=%2$d\n", Preference.INSTALL_AFTER_PATCH, 0));
-            fileWriter.write(String.format("%1$s=%2$d\n", Preference.API_VERSION, 1));
+            fileWriter.write(String.format("%1$s=%2$s\n", Preference.API_VERSION, ApiVersion.DEFAULT_API));
             fileWriter.flush();
             fileWriter.close();
         } catch (IOException e) {
