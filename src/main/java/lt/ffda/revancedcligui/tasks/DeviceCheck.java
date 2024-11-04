@@ -43,7 +43,7 @@ public class DeviceCheck extends Task<Void> {
                 }
             }
             if (devices.size() == 0) {
-                Platform.runLater(() -> this.textArea.appendText("No connected device was found"));
+                Platform.runLater(() -> this.textArea.appendText("No connected device was found\n"));
                 return null;
             }
             if (devices.size() == 1) {
