@@ -1,7 +1,7 @@
 package lt.ffda.revancedcligui.util;
 
 public enum Resource {
-    YOUTUBE_APK("Youtube apk", "youtube-apk", ""),
+    YOUTUBE_APK("Apk to patch", "apk-to-patch", ""),
     REVANCED_CLI("Revanced CLI","revanced-cli", "https://api.github.com/repos/revanced/revanced-cli/releases"),
     REVANCED_PATCHES("Revanced patches","revanced-patches", "https://api.github.com/repos/revanced/revanced-patches/releases"),
     REVANCED_INTEGRATIONS("Revanced integrations","revanced-integrations", "https://api.github.com/repos/revanced/revanced-integrations/releases"),
