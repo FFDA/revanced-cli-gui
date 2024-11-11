@@ -27,7 +27,7 @@
     <Button mnemonicParsing="false" onAction="#onYoutubeApkRefresh" styleClass="refresh-button" AnchorPane.leftAnchor="355.0" AnchorPane.topAnchor="20.0" />
     <Button mnemonicParsing="false" onAction="#onRevancedCliRefresh" styleClass="refresh-button" AnchorPane.leftAnchor="755.0" AnchorPane.topAnchor="20.0" />
     <Button mnemonicParsing="false" onAction="#onRevancedPatchesRefresh" styleClass="refresh-button" AnchorPane.leftAnchor="355.0" AnchorPane.topAnchor="60.0" />
-    <Button mnemonicParsing="false" onAction="#onRevancedIntegrationsRefresh" styleClass="refresh-button" AnchorPane.leftAnchor="755.0" AnchorPane.topAnchor="60.0" />
+    <Button mnemonicParsing="false" fx:id="on_revanced_integrations_refresh" onAction="#onRevancedIntegrationsRefresh" styleClass="refresh-button" AnchorPane.leftAnchor="755.0" AnchorPane.topAnchor="60.0" />
     <Button mnemonicParsing="false" onAction="#onMicroGRefresh" styleClass="refresh-button" AnchorPane.leftAnchor="355.0" AnchorPane.topAnchor="100.0" />
     <Button mnemonicParsing="false" onAction="#onDevicesRefresh" styleClass="refresh-button" AnchorPane.leftAnchor="755.0" AnchorPane.topAnchor="100.0" />
    <CheckBox fx:id="checkbox_exclude" mnemonicParsing="false" onAction="#onExclude" text="Exclude" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="155.0" />

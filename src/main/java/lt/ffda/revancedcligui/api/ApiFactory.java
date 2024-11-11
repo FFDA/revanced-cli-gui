@@ -9,7 +9,7 @@ import lt.ffda.revancedcligui.util.Preferences;
  */
 public class ApiFactory {
     private static final ApiFactory apiFactory = new ApiFactory();
-    public Api api;
+    private Api api;
 
     public static ApiFactory getInstance() {
         return apiFactory;
@@ -25,7 +25,8 @@ public class ApiFactory {
             return api;
         }
         switch (ApiVersion.valueOf(Preferences.getInstance().getStringPreferenceValue(Preference.API_VERSION))) {
-            default -> api = new ApiV4();
+            case V4 -> api = new ApiV4();
+            default -> api = new ApiV5();
         }
         return api;
     }
@@ -36,7 +37,8 @@ public class ApiFactory {
      */
     public void changeApi(ApiVersion apiVersion) {
         switch (apiVersion) {
-            default -> api = new ApiV4();
+            case V4 -> api = new ApiV4();
+            default -> api = new ApiV5();
         }
     }
 }

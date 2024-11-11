@@ -97,6 +97,7 @@ public class TabSettingsController {
     public void onApiVersionChange() {
         Preferences.getInstance().setStringPreferenceValue(Preference.API_VERSION, api_version.getValue().name());
         ApiFactory.getInstance().changeApi(api_version.getValue());
+        tabRevancedController.enableIntegrationsUi(api_version.getValue() == ApiVersion.V4);
         tabRevancedController.reloadIncludeExcludePatches();
     }
 

@@ -33,6 +33,8 @@ public class TabRevancedController {
     @FXML
     private ComboBox<String> combobox_revanced_integration;
     @FXML
+    private Button on_revanced_integrations_refresh;
+    @FXML
     private ComboBox<String> combobox_microg;
     @FXML
     private ComboBox<String> combobox_devices;
@@ -49,7 +51,7 @@ public class TabRevancedController {
     private final VersionComparator vc = new VersionComparator();
 
     public void initialize() {
-        new Thread(new DeviceCheck(this.combobox_devices, this.text_area)).start();
+        new Thread(new DeviceCheck(combobox_devices, text_area)).start();
         revancedPatchesChangeListener = (observableValue, oldValue, newValue) -> {
             if (checkbox_exclude.isSelected()) {
                 if (newValue != null && !newValue.equals(oldValue)) {
@@ -62,7 +64,10 @@ public class TabRevancedController {
                 }
             }
         };
-        combobox_revanced_patches.getSelectionModel().selectedItemProperty().addListener(this.revancedPatchesChangeListener);
+        combobox_revanced_patches.getSelectionModel().selectedItemProperty().addListener(revancedPatchesChangeListener);
+        if (ApiFactory.getInstance().getApi().getApiVersion() != ApiVersion.V4) {
+            enableIntegrationsUi(false);
+        }
         populateComboboxes();
         if (Preferences.getInstance().getBooleanPreferenceValue(Preference.PRINT_SUPPORTED_VERSIONS)) {
             printSupportedVersions();
@@ -127,7 +132,9 @@ public class TabRevancedController {
         onYoutubeApkRefresh();
         onRevancedCliRefresh();
         onRevancedPatchesRefresh();
-        onRevancedIntegrationsRefresh();
+        if (ApiFactory.getInstance().getApi().getApiVersion() == ApiVersion.V4) {
+            onRevancedIntegrationsRefresh();
+        }
         onMicroGRefresh();
     }
 
@@ -234,62 +241,62 @@ public class TabRevancedController {
      * Refresh list of YouTube apk files
      */
     public void onYoutubeApkRefresh() {
-        this.combobox_youtube_apk.getItems().setAll(
+        combobox_youtube_apk.getItems().setAll(
                 Arrays.stream(new File(Resource.YOUTUBE_APK.getFolderName()).list())
                         .sorted(Comparator.reverseOrder())
                         .collect(Collectors.toList())
         );
-        this.combobox_youtube_apk.getSelectionModel().select(0);
+        combobox_youtube_apk.getSelectionModel().select(0);
     }
 
     /**
      * Refresh ReVanced CLI jar file list
      */
     public void onRevancedCliRefresh() {
-        this.combobox_revanced_cli.getItems().setAll(
+        combobox_revanced_cli.getItems().setAll(
                 Arrays.stream(new File(Resource.REVANCED_CLI.getFolderName()).list())
                         .sorted(this.vc)
                         .collect(Collectors.toList())
         );
-        this.combobox_revanced_cli.getSelectionModel().select(0);
+        combobox_revanced_cli.getSelectionModel().select(0);
     }
 
     /**
      * Refresh ReVanced Patches file list
      */
     public void onRevancedPatchesRefresh() {
-        this.combobox_revanced_patches.getSelectionModel().selectedItemProperty().removeListener(this.revancedPatchesChangeListener);
-        this.combobox_revanced_patches.getItems().setAll(
+        combobox_revanced_patches.getSelectionModel().selectedItemProperty().removeListener(this.revancedPatchesChangeListener);
+        combobox_revanced_patches.getItems().setAll(
                 Arrays.stream(new File(Resource.REVANCED_PATCHES.getFolderName()).list())
                         .sorted(this.vc)
                         .collect(Collectors.toList())
         );
-        this.combobox_revanced_patches.getSelectionModel().selectedItemProperty().addListener(this.revancedPatchesChangeListener);
-        this.combobox_revanced_patches.getSelectionModel().select(0);
+        combobox_revanced_patches.getSelectionModel().selectedItemProperty().addListener(this.revancedPatchesChangeListener);
+        combobox_revanced_patches.getSelectionModel().select(0);
     }
 
     /**
      * Refresh ReVanced Integration apk file list
      */
     public void onRevancedIntegrationsRefresh() {
-        this.combobox_revanced_integration.getItems().setAll(
+        combobox_revanced_integration.getItems().setAll(
                 Arrays.stream(new File(Resource.REVANCED_INTEGRATIONS.getFolderName()).list())
                         .sorted((this.vc))
                         .collect(Collectors.toList())
         );
-        this.combobox_revanced_integration.getSelectionModel().select(0);
+        combobox_revanced_integration.getSelectionModel().select(0);
     }
 
     /**
      * Refresh microG apk file list
      */
     public void onMicroGRefresh() {
-        this.combobox_microg.getItems().setAll(
+        combobox_microg.getItems().setAll(
                 Arrays.stream(new File(Resource.MICROG.getFolderName()).list())
                         .sorted(Comparator.reverseOrder())
                         .collect(Collectors.toList())
         );
-        this.combobox_microg.getSelectionModel().select(0);
+        combobox_microg.getSelectionModel().select(0);
     }
 
     /**
@@ -424,7 +431,7 @@ public class TabRevancedController {
             }
         });
         contextMenu.getItems().add(menuItemClear);
-        this.text_area.setContextMenu(contextMenu);
+        text_area.setContextMenu(contextMenu);
     }
 
     /**
@@ -433,6 +440,15 @@ public class TabRevancedController {
     private void printPatchCommand(ArrayList<String> command) {
         StringBuilder commandText = new StringBuilder("Patching command: ");
         commandText.append(String.join(" ", command)).append('\n');
-        this.text_area.appendText(commandText.toString());
+        text_area.appendText(commandText.toString());
+    }
+
+    /**
+     * Enable or disable UI elements associated with ReVanced integrations
+     * @param status true - enable, false - disable
+     */
+    public void enableIntegrationsUi(boolean status) {
+        combobox_revanced_integration.setDisable(!status);
+        on_revanced_integrations_refresh.setDisable(!status);
     }
 }

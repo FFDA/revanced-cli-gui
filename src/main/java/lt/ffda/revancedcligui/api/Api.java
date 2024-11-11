@@ -7,6 +7,7 @@ import javafx.scene.layout.VBox;
 import lt.ffda.revancedcligui.controller.TabExcludeController;
 import lt.ffda.revancedcligui.controller.TabIncludeController;
 import lt.ffda.revancedcligui.dto.PatchDto;
+import lt.ffda.revancedcligui.util.ApiVersion;
 import lt.ffda.revancedcligui.util.Preference;
 import lt.ffda.revancedcligui.util.Preferences;
 import lt.ffda.revancedcligui.util.Resource;
@@ -28,6 +29,14 @@ import java.util.regex.Pattern;
 public class Api {
 
     public Api() {}
+
+    /**
+     * Returns current API version
+     * @return currently set API version
+     */
+    public ApiVersion getApiVersion() {
+        return ApiVersion.V4;
+    }
 
     /**
      * Command to print all the patches to stout. Most likely string still needs to be formatted to insert dependencies.
