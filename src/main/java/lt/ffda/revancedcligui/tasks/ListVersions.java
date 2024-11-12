@@ -57,7 +57,7 @@ public class ListVersions extends Task<Void> {
     }
 
     /**
-     * Creates command that prints suppoerted versions of YouTube by Revanced
+     * Creates command that prints supported versions of YouTube by Revanced
      * @return command can be run to get supported YouTube versions
      */
     private String getCommand() {

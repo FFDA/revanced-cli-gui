@@ -76,7 +76,7 @@ public class ApiV5 extends Api {
         }
         commandPatch.add("-o");
         commandPatch.add(outputPath);
-        commandPatch.add(Resource.YOUTUBE_APK.getFolderName() + File.separatorChar + patchApk);
+        commandPatch.add(Resource.APK_TO_PATCH.getFolderName() + File.separatorChar + patchApk);
         ArrayList<String> commandInstall = null;
         if (Preferences.getInstance().getBooleanPreferenceValue(Preference.INSTALL_AFTER_PATCH)) {
             commandInstall = new ArrayList<>();

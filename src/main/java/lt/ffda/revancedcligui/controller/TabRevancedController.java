@@ -25,7 +25,7 @@ public class TabRevancedController {
     private TabExcludeController tabExcludeController;
     private TabIncludeController tabIncludeController;
     @FXML
-    private ComboBox<String> combobox_youtube_apk;
+    private ComboBox<String> combobox_apk_to_patch;
     @FXML
     private ComboBox<String> combobox_revanced_cli;
     @FXML
@@ -129,7 +129,7 @@ public class TabRevancedController {
      * Displays all resources in appropriate comboboxes. Sorts the - newest at the top.
      */
     private void populateComboboxes() {
-        onYoutubeApkRefresh();
+        onApkToPatchRefresh();
         onRevancedCliRefresh();
         onRevancedPatchesRefresh();
         if (ApiFactory.getInstance().getApi().getApiVersion() == ApiVersion.V4) {
@@ -139,7 +139,7 @@ public class TabRevancedController {
     }
 
     /**
-     * Patches and installs YouTube
+     * Patches and installs selected apk
      */
     public void patchAndInstall() {
         if (areResourceSelected()) {
@@ -176,7 +176,7 @@ public class TabRevancedController {
      */
     private List<ArrayList<String>> getCommands() {
         return ApiFactory.getInstance().getApi().getCommands(combobox_revanced_cli.getValue(), combobox_revanced_patches.getValue(),
-                combobox_revanced_integration.getValue(), combobox_youtube_apk.getValue(), checkbox_exclude.isSelected(),
+                combobox_revanced_integration.getValue(), combobox_apk_to_patch.getValue(), checkbox_exclude.isSelected(),
                 checkbox_include.isSelected(), getOutputPath(), combobox_devices.getValue(), tabExcludeController,
                 tabIncludeController);
     }
@@ -201,8 +201,8 @@ public class TabRevancedController {
      */
     private boolean areResourceSelected() {
         boolean selected = true;
-        if (this.combobox_youtube_apk.getValue()== null || this.combobox_youtube_apk.getValue().isEmpty()) {
-            this.text_area.appendText("Please select an Youtube apk\n");
+        if (this.combobox_apk_to_patch.getValue()== null || this.combobox_apk_to_patch.getValue().isEmpty()) {
+            this.text_area.appendText("Please select an apk to patch\n");
             selected = false;
         }
         if (this.combobox_revanced_cli.getValue()== null || this.combobox_revanced_cli.getValue().isEmpty()) {
@@ -238,15 +238,15 @@ public class TabRevancedController {
     }
 
     /**
-     * Refresh list of YouTube apk files
+     * Refresh list of apk files available for patching
      */
-    public void onYoutubeApkRefresh() {
-        combobox_youtube_apk.getItems().setAll(
-                Arrays.stream(new File(Resource.YOUTUBE_APK.getFolderName()).list())
+    public void onApkToPatchRefresh() {
+        combobox_apk_to_patch.getItems().setAll(
+                Arrays.stream(new File(Resource.APK_TO_PATCH.getFolderName()).list())
                         .sorted(Comparator.reverseOrder())
                         .collect(Collectors.toList())
         );
-        combobox_youtube_apk.getSelectionModel().select(0);
+        combobox_apk_to_patch.getSelectionModel().select(0);
     }
 
     /**
@@ -405,13 +405,13 @@ public class TabRevancedController {
     }
 
     /**
-     * Creates path with filename where the patch will be saved. If file selected for patching has word "youtube" in it,
-     * it will be changed to "revanced_youtube. If it does not contain word "youtube" "revanced_" will be prepended to
+     * Creates path with filename where the patch will be saved. Output file name will be the same as input file with
+     * "revanced_" prepended to it.
      * the file name.
      * @return path where patched file will be saved
      */
     private String getOutputPath() {
-        String patchedApkFilename = combobox_youtube_apk.getValue().contains("youtube") ? combobox_youtube_apk.getValue().replace("youtube", "revanced_youtube") : String.format("revanced_%1$s", combobox_youtube_apk.getValue());
+        String patchedApkFilename = String.format("revanced_%1$s", combobox_apk_to_patch.getValue());
         StringBuilder outputPath = new StringBuilder();
         outputPath.append(Resource.PATCHED_APKS.getFolderName()).append(File.separatorChar).append(patchedApkFilename);
         return outputPath.toString();

@@ -42,7 +42,7 @@ public class RevancedCliGui extends Application {
      * Creates folder structure for program to store files
      */
     private void createFolderStructure() {
-        new File(Resource.YOUTUBE_APK.getFolderName()).mkdir();
+        new File(Resource.APK_TO_PATCH.getFolderName()).mkdir();
         new File(Resource.REVANCED_CLI.getFolderName()).mkdir();
         new File(Resource.REVANCED_PATCHES.getFolderName()).mkdir();
         new File(Resource.REVANCED_INTEGRATIONS.getFolderName()).mkdir();
