@@ -451,4 +451,11 @@ public class TabRevancedController {
         combobox_revanced_integration.setDisable(!status);
         on_revanced_integrations_refresh.setDisable(!status);
     }
+
+    /**
+     * Clears text area from all output
+     */
+    public void onClearTextArea() {
+        text_area.clear();
+    }
 }
