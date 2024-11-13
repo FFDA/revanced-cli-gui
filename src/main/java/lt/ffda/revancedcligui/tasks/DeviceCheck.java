@@ -34,12 +34,12 @@ public class DeviceCheck extends Task<Void> {
             List<String> devices = new ArrayList<>();
             Process process = runtime.exec(Adb.getInstance().getAdb() + " devices -l");
             BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            Pattern pattern = Pattern.compile("([A-Za-z0-9\\-]+)\\s+.+model:([A-Za-z0-9_]+)");
+            Pattern pattern = Pattern.compile("(\\S+)\\s+.+model:([\\S]+) device:([\\S]+)");
             String line;
             while ((line = stdInput.readLine()) != null) {
                 Matcher matcher = pattern.matcher(line);
                 if (matcher.find()) {
-                    devices.add(String.format("%1$s - %2$s", matcher.group(1), matcher.group(2)));
+                    devices.add(String.format("%1$s - %2$s %3$s", matcher.group(1), matcher.group(2), matcher.group(3)));
                 }
             }
             if (devices.size() == 0) {
