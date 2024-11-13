@@ -6,7 +6,7 @@
 
     <groupId>lt.ffda</groupId>
     <artifactId>revanced-cli-gui</artifactId>
-    <version>1.4.0</version>
+    <version>1.5.0</version>
     <name>revanced-cli-gui</name>
 
     <properties>
