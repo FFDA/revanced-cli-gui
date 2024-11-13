@@ -69,14 +69,7 @@ public class ResourceCheck extends Task<Void> {
                 if (!this.downloadDevReleases && releasesArray.getJSONObject(i).getBoolean("prerelease")) {
                     continue;
                 }
-                switch (resource) {
-                    case REVANCED_CLI, REVANCED_INTEGRATIONS, MICROG -> releaseJson = releasesArray.getJSONObject(i).getJSONArray("assets").getJSONObject(0);
-                    case REVANCED_PATCHES -> releaseJson = releasesArray.getJSONObject(i).getJSONArray("assets").getJSONObject(1);
-                    default -> {
-                        Platform.runLater(() -> textArea.appendText(String.format("%1$s resource is not supported", resource.getName())));
-                        return null;
-                    }
-                }
+                releaseJson = getReleaseJsonObject(resource, releasesArray.getJSONObject(i).getJSONArray("assets"));
                 if (resource == Resource.MICROG) {
                     filename = String.format("microg_%1$s.apk", releasesArray.getJSONObject(i).getString("tag_name"));
                 } else {
@@ -85,7 +78,7 @@ public class ResourceCheck extends Task<Void> {
                 break;
             }
             if (releaseJson == null || filename == null) {
-                this.textArea.appendText(String.format("Failed to download %1$s resource. Try enabling \"Download pre-releases\"", resource.getName()));
+                textArea.appendText(String.format("Failed to download %1$s resource. Try enabling \"Download pre-releases\"", resource.getName()));
                 return null;
             }
             String finalFilename = filename;
@@ -94,9 +87,9 @@ public class ResourceCheck extends Task<Void> {
             // Tries to create new file. If it fails it means that file already exists
             if (newRelease.createNewFile()) {
                 Platform.runLater(() -> textArea.appendText(String.format("Found a new version of %1$s. Downloading. Filename: %2$s\n", resource.getName(), finalFilename)));
-                this.downloadNewResource(downloadUrl, newRelease);
+                downloadNewResource(downloadUrl, newRelease);
                 Platform.runLater(() -> textArea.appendText(String.format("Finished downloading %1$s\n", finalFilename)));
-                this.updateComboBox();
+                updateComboBox();
             } else {
                 Platform.runLater(() -> textArea.appendText(String.format("%1$s is already at the latest version\n", resource.getName())));
             }
@@ -141,5 +134,26 @@ public class ResourceCheck extends Task<Void> {
                 this.resourceCheckCallback.callback();
             }
         });
+    }
+
+    /**
+     * Returns first object from assets that has the same extension as resource
+     * @param resource resource that
+     * @param assets assets from release
+     * @return JSONObject with resource that can be downloaded, null - not found
+     */
+    private JSONObject getReleaseJsonObject(Resource resource, JSONArray assets) {
+        JSONObject object = null;
+        for (int i = 0; i < assets.length(); i++) {
+            String filename = assets.getJSONObject(i).getString("name");
+            int index = filename.lastIndexOf(".");
+            if (index >= 0) {
+                if (resource.getExtension().equals(filename.substring(index + 1))) {
+                    object = assets.getJSONObject(i);
+                    break;
+                }
+            }
+        }
+        return object;
     }
 }

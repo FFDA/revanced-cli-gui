@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import lt.ffda.revancedcligui.api.ApiFactory;
+import lt.ffda.revancedcligui.api.ApiV4;
 import lt.ffda.revancedcligui.tasks.*;
 import javafx.fxml.FXML;
 import lt.ffda.revancedcligui.util.*;
@@ -91,37 +92,39 @@ public class TabRevancedController {
         ExecutorService executorService = Executors.newFixedThreadPool(2);
         executorService.submit(new ResourceCheck(
                 Resource.REVANCED_CLI,
-                this.text_area,
+                text_area,
                 combobox_revanced_cli,
                 Preferences.getInstance().getBooleanPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
                 null
                 ));
-        executorService.submit(new ResourceCheck(
-                Resource.REVANCED_INTEGRATIONS,
-                this.text_area,
-                combobox_revanced_integration,
-                Preferences.getInstance().getBooleanPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
-                null
-        ));
-        executorService.submit(new ResourceCheck(
-                Resource.MICROG,
-                this.text_area,
-                combobox_microg,
-                Preferences.getInstance().getBooleanPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
-                null
-        ));
-        executorService.submit(new ResourceCheck(
-                Resource.REVANCED_PATCHES,
-                this.text_area,
-                combobox_revanced_patches,
-                Preferences.getInstance().getBooleanPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
-                revancedPatchesChangeListener,
-                () -> {
-                    if (Preferences.getInstance().getBooleanPreferenceValue(Preference.PRINT_SUPPORTED_VERSIONS)) {
-                        printSupportedVersions();
-                    }
-                }
-        ));
+//        if (ApiFactory.getInstance().getApi().getApiVersion() == ApiVersion.V4) {
+//            executorService.submit(new ResourceCheck(
+//                    Resource.REVANCED_INTEGRATIONS,
+//                    text_area,
+//                    combobox_revanced_integration,
+//                    Preferences.getInstance().getBooleanPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
+//                    null
+//            ));
+//        }
+//        executorService.submit(new ResourceCheck(
+//                Resource.MICROG,
+//                text_area,
+//                combobox_microg,
+//                Preferences.getInstance().getBooleanPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
+//                null
+//        ));
+//        executorService.submit(new ResourceCheck(
+//                Resource.REVANCED_PATCHES,
+//                text_area,
+//                combobox_revanced_patches,
+//                Preferences.getInstance().getBooleanPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
+//                revancedPatchesChangeListener,
+//                () -> {
+//                    if (Preferences.getInstance().getBooleanPreferenceValue(Preference.PRINT_SUPPORTED_VERSIONS)) {
+//                        printSupportedVersions();
+//                    }
+//                }
+//        ));
         executorService.shutdown();
     }
 
