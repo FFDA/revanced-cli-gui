@@ -31,7 +31,7 @@ To use specific keystore file to sign the apk it has to be placed in the same fo
 ### Requirements:
 * Java 17
 * JavaFX 17
-* Maven
+* Maven 3.8.7 (newer versions might fail to compile)
 
 ### Compile:
 1. Clone the repo
