@@ -97,34 +97,34 @@ public class TabRevancedController {
                 Preferences.getInstance().getBooleanPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
                 null
                 ));
-//        if (ApiFactory.getInstance().getApi().getApiVersion() == ApiVersion.V4) {
-//            executorService.submit(new ResourceCheck(
-//                    Resource.REVANCED_INTEGRATIONS,
-//                    text_area,
-//                    combobox_revanced_integration,
-//                    Preferences.getInstance().getBooleanPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
-//                    null
-//            ));
-//        }
-//        executorService.submit(new ResourceCheck(
-//                Resource.MICROG,
-//                text_area,
-//                combobox_microg,
-//                Preferences.getInstance().getBooleanPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
-//                null
-//        ));
-//        executorService.submit(new ResourceCheck(
-//                Resource.REVANCED_PATCHES,
-//                text_area,
-//                combobox_revanced_patches,
-//                Preferences.getInstance().getBooleanPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
-//                revancedPatchesChangeListener,
-//                () -> {
-//                    if (Preferences.getInstance().getBooleanPreferenceValue(Preference.PRINT_SUPPORTED_VERSIONS)) {
-//                        printSupportedVersions();
-//                    }
-//                }
-//        ));
+        if (ApiFactory.getInstance().getApi().getApiVersion() == ApiVersion.V4) {
+            executorService.submit(new ResourceCheck(
+                    Resource.REVANCED_INTEGRATIONS,
+                    text_area,
+                    combobox_revanced_integration,
+                    Preferences.getInstance().getBooleanPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
+                    null
+            ));
+        }
+        executorService.submit(new ResourceCheck(
+                Resource.MICROG,
+                text_area,
+                combobox_microg,
+                Preferences.getInstance().getBooleanPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
+                null
+        ));
+        executorService.submit(new ResourceCheck(
+                Resource.REVANCED_PATCHES,
+                text_area,
+                combobox_revanced_patches,
+                Preferences.getInstance().getBooleanPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
+                revancedPatchesChangeListener,
+                () -> {
+                    if (Preferences.getInstance().getBooleanPreferenceValue(Preference.PRINT_SUPPORTED_VERSIONS)) {
+                        printSupportedVersions();
+                    }
+                }
+        ));
         executorService.shutdown();
     }
 
