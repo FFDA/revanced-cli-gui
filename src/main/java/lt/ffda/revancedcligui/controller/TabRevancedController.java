@@ -430,7 +430,7 @@ public class TabRevancedController {
         menuItemClear.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                text_area.clear();
+                onClearTextArea();
             }
         });
         contextMenu.getItems().add(menuItemClear);
