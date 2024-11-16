@@ -24,6 +24,10 @@ public class ApiFactory {
         if (api != null) {
             return api;
         }
+        String versionString = Preferences.getInstance().getStringPreferenceValue(Preference.API_VERSION);
+        if (versionString == null) {
+            return api = new ApiV5();
+        }
         switch (ApiVersion.valueOf(Preferences.getInstance().getStringPreferenceValue(Preference.API_VERSION))) {
             case V4 -> api = new ApiV4();
             default -> api = new ApiV5();
