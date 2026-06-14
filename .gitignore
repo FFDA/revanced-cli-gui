@@ -45,3 +45,6 @@ revanced-cli/
 patched-apks/
 revanced-integrations/
 revanced-patches/
+cli/
+patches/
+*.keystore

@@ -1,11 +1,10 @@
 package resource;
 
-public enum RevancedResource implements IResource {
+public enum MorpheResource implements IResource {
     APK_TO_PATCH("Apk to patch", "apk-to-patch", "", "apk"),
-    REVANCED_CLI("Revanced CLI","revanced-cli", "https://api.github.com/repos/revanced/revanced-cli/releases", "jar"),
-    REVANCED_PATCHES("Revanced patches","revanced-patches", "https://api.github.com/repos/revanced/revanced-patches/releases", "rvp"),
-    REVANCED_INTEGRATIONS("Revanced integrations","revanced-integrations", "https://api.github.com/repos/revanced/revanced-integrations/releases", "apk"),
-    MICROG("microG", "microg", "https://api.github.com/repos/revanced/gmscore/releases", "apk"),
+    MORPHE_CLI("Morphe CLI","cli", "https://api.github.com/repos/MorpheApp/morphe-cli/releases", "jar"),
+    MORPHE_PATCHES("Morphe patches","patches", "https://api.github.com/repos/MorpheApp/morphe-patches/releases", "mpp"),
+    MICROG("microG", "microg", "https://api.github.com/repos/MorpheApp/MicroG-RE/releases", "apk"),
     ADB("Android Debugging Bridge", "bin", "https://developer.android.com/tools/releases/platform-tools", ""),
     PATCHED_APKS("Patched APKs", "patched-apks", "", "apk");
 
@@ -14,7 +13,7 @@ public enum RevancedResource implements IResource {
     private final String releasesUrl;
     private final String extension;
 
-    RevancedResource(String name, String folderName, String releasesUrl, String extension) {
+    MorpheResource(String name, String folderName, String releasesUrl, String extension) {
         this.name = name;
         this.folderName = folderName;
         this.releasesUrl = releasesUrl;

@@ -416,12 +416,12 @@ public class TabRevancedController {
 
     /**
      * Creates path with filename where the patch will be saved. Output file name will be the same as input file with
-     * "revanced_" prepended to it.
+     * "patched_" prepended to it.
      * the file name.
      * @return path where patched file will be saved
      */
     private String getOutputPath() {
-        String patchedApkFilename = String.format("revanced_%1$s", combobox_apk_to_patch.getValue());
+        String patchedApkFilename = String.format("patched_%1$s", combobox_apk_to_patch.getValue());
         StringBuilder outputPath = new StringBuilder();
         outputPath.append(ApiFactory.getInstance().getApi().getPatchedApksResource().getFolderName()).append(File.separatorChar).append(patchedApkFilename);
         return outputPath.toString();

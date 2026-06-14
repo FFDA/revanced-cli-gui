@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import lt.ffda.revancedcligui.api.Api;
 import lt.ffda.revancedcligui.api.ApiFactory;
 import lt.ffda.revancedcligui.util.Adb;
+import lt.ffda.revancedcligui.util.ApiVersion;
 import lt.ffda.revancedcligui.util.Preference;
 import lt.ffda.revancedcligui.util.Preferences;
 
@@ -47,7 +48,9 @@ public class RevancedCliGui extends Application {
         new File(api.getApkToPatchResource().getFolderName()).mkdir();
         new File(api.getCliResource().getFolderName()).mkdir();
         new File(api.getPatchesResource().getFolderName()).mkdir();
-        new File(api.getIntegrationsResource().getFolderName()).mkdir();
+        if (api.getApiVersion() == ApiVersion.V4) {
+            new File(api.getIntegrationsResource().getFolderName()).mkdir();
+        }
         new File(api.getMicroGResource().getFolderName()).mkdir();
         new File(api.getPatchedApksResource().getFolderName()).mkdir();
         if (Preferences.getInstance().getBooleanPreferenceValue(Preference.USE_EMBEDDED_ADB)) {

@@ -28,9 +28,10 @@ public class ApiFactory {
         if (versionString == null) {
             return api = new ApiV5();
         }
-        switch (ApiVersion.valueOf(Preferences.getInstance().getStringPreferenceValue(Preference.API_VERSION))) {
+        switch (ApiVersion.valueOf(versionString)) {
             case V4 -> api = new ApiV4();
-            default -> api = new ApiV5();
+            case V5 -> api = new ApiV5();
+            default -> api = new MorpheApiV1();
         }
         return api;
     }
@@ -42,7 +43,8 @@ public class ApiFactory {
     public void changeApi(ApiVersion apiVersion) {
         switch (apiVersion) {
             case V4 -> api = new ApiV4();
-            default -> api = new ApiV5();
+            case V5 -> api = new ApiV5();
+            default -> api = new MorpheApiV1();
         }
     }
 }

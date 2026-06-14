@@ -2,11 +2,9 @@ package lt.ffda.revancedcligui.tasks;
 
 import javafx.concurrent.Task;
 import javafx.scene.control.TextArea;
-import lt.ffda.revancedcligui.api.Api;
 import lt.ffda.revancedcligui.api.ApiFactory;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -61,20 +59,10 @@ public class ListVersions extends Task<Void> {
     }
 
     /**
-     * Creates command that prints supported versions of YouTube by Revanced
+     * Creates command that prints supported versions of YouTube
      * @return command can be run to get supported YouTube versions
      */
     private String getCommand() {
-        Api api = ApiFactory.getInstance().getApi();
-        StringBuilder command = new StringBuilder("java -jar ");
-        command.append(api.getCliResource().getFolderName())
-                .append(File.separatorChar)
-                .append(this.cli)
-                .append(" list-versions")
-                .append(" -f com.google.android.youtube -u ")
-                .append(api.getPatchesResource().getFolderName())
-                .append(File.separatorChar)
-                .append(this.patches);
-        return command.toString();
+        return ApiFactory.getInstance().getApi().getSupportedVersionCommand(this.cli, this.patches, "com.google.android.youtube");
     }
 }

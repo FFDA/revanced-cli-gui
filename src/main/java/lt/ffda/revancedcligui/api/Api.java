@@ -29,6 +29,10 @@ import java.util.regex.Pattern;
  */
 public class Api implements IApiResources {
 
+    // Patterns to search for specific data of the patch information
+    public final static Pattern PATTERN_NAME = Pattern.compile("Name: ([\\w ]+) Description: ");
+    public final static Pattern PATTERN_DESCRIPTION = Pattern.compile("Description: (null)|Description: (.+)\\bC|Description: ([\\w \"-.]+)");
+    public final static Pattern PATTERN_PACKAGES = Pattern.compile("Package name: ([\\w.]+)");
     public Api() {}
 
     /**
@@ -48,7 +52,7 @@ public class Api implements IApiResources {
     }
 
     /**
-     * Get all patches available with selected revancedCli and revancedPatches
+     * Get all patches available with selected cli and patches
      * @param revancedCli path to selected revanced-cli
      * @param revancedPatches path to selected revanced-patches
      * @return list of patches in PatchDto objects
@@ -58,10 +62,6 @@ public class Api implements IApiResources {
         Runtime runtime = Runtime.getRuntime();
         Process process = runtime.exec(String.format(getListPatchesCommand(), revancedCli, revancedPatches));
         BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
-        // Patterns to search for specific data of the patch information
-        Pattern patternName = Pattern.compile("Name: ([\\w ]+) Description: ");
-        Pattern patternDescription = Pattern.compile("Description: (null)|Description: (.+)\\bC|Description: ([\\w \"-.]+)");
-        Pattern patternPackages = Pattern.compile("Package name: ([\\w.]+)");
         List<String> packages = new ArrayList<>(); // Stores all patches from revanced-cli command output. One package per String
         // Collects patch information
         StringBuilder singlePackage = new StringBuilder();
@@ -80,14 +80,14 @@ public class Api implements IApiResources {
         ArrayList<PatchDto> tempPatches = new ArrayList<>(); // Temp patches list
         for (String patch : packages) {
             PatchDto patchDto = null;
-            Matcher matcher = patternName.matcher(patch);
+            Matcher matcher = PATTERN_NAME.matcher(patch);
             if (matcher.find()) {
                 patchDto = new PatchDto(matcher.group(1));
             }
             if (patchDto == null) {
                 continue;
             }
-            matcher = patternDescription.matcher(patch);
+            matcher = PATTERN_DESCRIPTION.matcher(patch);
             if (matcher.find()) {
                 for (int i = 1; i <= matcher.groupCount(); i++) {
                     if (matcher.group(i) != null) {
@@ -96,7 +96,7 @@ public class Api implements IApiResources {
                     }
                 }
             }
-            matcher = patternPackages.matcher(patch);
+            matcher = PATTERN_PACKAGES.matcher(patch);
             while (matcher.find()) {
                 patchDto.getPackageName().add(matcher.group(1));
             }
@@ -143,7 +143,7 @@ public class Api implements IApiResources {
 
     /**
      * Creates two commands. First command is to patch selected apk using Revance-Cli and other provided dependencies
-     * and user chosen options.Second command is for installing to chosen device. Seconds command might be null if
+     * and user chosen options. Second command is for installing to chosen device. Seconds command might be null if
      * user do not check "Install after patching" checkbox.
      * @param cli filename of selected Revanced-Cli
      * @param patches filename of selected Revanced-Patches
@@ -197,6 +197,29 @@ public class Api implements IApiResources {
             commandInstall.add(device.split(" - ")[0]);
         }
         return new ArrayList<>(Arrays.asList(commandPatch, commandInstall));
+    }
+
+    /**
+     * Command to print information about supported apk version
+     * @param cli name of with selected cli to use
+     * @param patches name of with selected patches to use
+     * @param packageName apk package name, e.g. com.google.android.youtube
+     * @return formated string to be used as command
+     */
+    public String getSupportedVersionCommand(String cli, String patches, String packageName) {
+        Api api = ApiFactory.getInstance().getApi();
+        StringBuilder command = new StringBuilder("java -jar ");
+        command.append(api.getCliResource().getFolderName())
+                .append(File.separatorChar)
+                .append(cli)
+                .append(" list-versions")
+                .append(" -f ")
+                .append(packageName)
+                .append(" -u ")
+                .append(api.getPatchesResource().getFolderName())
+                .append(File.separatorChar)
+                .append(patches);
+        return command.toString();
     }
 
     @Override
