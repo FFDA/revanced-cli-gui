@@ -18,7 +18,7 @@ public interface IResource {
     public String getFolderName();
 
     /**
-     * Url to the resource json. For resources from GitHub it should point to releases
+     * Url to the resource JSON. For resources from GitHub it should point to releases
      * @return url to json
      */
     public String getReleasesUrl();

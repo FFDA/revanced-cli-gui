@@ -5,7 +5,7 @@ import lt.ffda.revancedcligui.util.Preference;
 import lt.ffda.revancedcligui.util.Preferences;
 
 /**
- * Factory/Singleton class to get class that is compatible with ReVanced API selected settings
+ * Factory/Singleton class to get class that is compatible with cli API selected settings
  */
 public class ApiFactory {
     private static final ApiFactory apiFactory = new ApiFactory();

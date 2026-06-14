@@ -8,7 +8,7 @@ public class PatchDto {
     private final ArrayList<String> packageName;
 
     /**
-     * PatchDto object holds all information about available patches collected from revanced-cli and a patch apk
+     * PatchDto object holds all information about available patches collected from cli and a patch apk
      * @param name name of the patch
      */
     public PatchDto(String name) {

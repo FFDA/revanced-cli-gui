@@ -12,7 +12,7 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Uses revanced-cli command to list all supported YouTube apk versions
+ * Uses cli command to list all supported YouTube apk versions
  */
 public class ListVersions extends Task<Void> {
     private final TextArea textArea;
@@ -22,7 +22,7 @@ public class ListVersions extends Task<Void> {
 
     /**
      * Collects and print all supported YouTube apk version to provided TextArea. Supported versions might depend on
-     * revanced-cli and revanced-patches version that is being used.
+     * cli and patches version that is being used.
      * @param textArea text area to print the result
      * @param cli cli filename that will be used to get suppoerted versions
      * @param patches patches filename that will be used to the supported versions

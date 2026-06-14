@@ -3,7 +3,6 @@ package lt.ffda.revancedcligui.api;
 import lt.ffda.revancedcligui.util.ApiVersion;
 import resource.IResource;
 import resource.MorpheResource;
-import resource.RevancedResource;
 
 import java.io.File;
 
@@ -67,7 +66,7 @@ public class MorpheApiV1 extends ApiV5 {
 
     @Override
     public IResource getPatchedApksResource() {
-        return RevancedResource.PATCHED_APKS;
+        return MorpheResource.PATCHED_APKS;
     }
 
 }

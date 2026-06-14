@@ -2,8 +2,8 @@ package resource;
 
 public enum RevancedResource implements IResource {
     APK_TO_PATCH("Apk to patch", "apk-to-patch", "", "apk"),
-    REVANCED_CLI("Revanced CLI","revanced-cli", "https://api.github.com/repos/revanced/revanced-cli/releases", "jar"),
-    REVANCED_PATCHES("Revanced patches","revanced-patches", "https://api.github.com/repos/revanced/revanced-patches/releases", "rvp"),
+    REVANCED_CLI("Revanced CLI","cli", "https://api.github.com/repos/revanced/revanced-cli/releases", "jar"),
+    REVANCED_PATCHES("Revanced patches","patches", "https://api.github.com/repos/revanced/revanced-patches/releases", "rvp"),
     REVANCED_INTEGRATIONS("Revanced integrations","revanced-integrations", "https://api.github.com/repos/revanced/revanced-integrations/releases", "apk"),
     MICROG("microG", "microg", "https://api.github.com/repos/revanced/gmscore/releases", "apk"),
     ADB("Android Debugging Bridge", "bin", "https://developer.android.com/tools/releases/platform-tools", ""),

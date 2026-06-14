@@ -32,13 +32,13 @@ public class TabRevancedController {
     @FXML
     private ComboBox<String> combobox_apk_to_patch;
     @FXML
-    private ComboBox<String> combobox_revanced_cli;
+    private ComboBox<String> combobox_cli;
     @FXML
-    private ComboBox<String> combobox_revanced_patches;
+    private ComboBox<String> combobox_patches;
     @FXML
-    private ComboBox<String> combobox_revanced_integration;
+    private ComboBox<String> combobox_integration;
     @FXML
-    private Button on_revanced_integrations_refresh;
+    private Button on_integrations_refresh;
     @FXML
     private ComboBox<String> combobox_microg;
     @FXML
@@ -52,12 +52,12 @@ public class TabRevancedController {
     @FXML
     private CheckBox checkbox_install;
     // Needed as a variable that it could be removed at appropriate time when refreshing the list
-    private ChangeListener<String> revancedPatchesChangeListener;
+    private ChangeListener<String> patchesChangeListener;
     private final VersionComparator vc = new VersionComparator();
 
     public void initialize() {
         new Thread(new DeviceCheck(combobox_devices, text_area)).start();
-        revancedPatchesChangeListener = (observableValue, oldValue, newValue) -> {
+        patchesChangeListener = (observableValue, oldValue, newValue) -> {
             if (checkbox_exclude.isSelected()) {
                 if (newValue != null && !newValue.equals(oldValue)) {
                     loadPatchesExclude();
@@ -69,7 +69,7 @@ public class TabRevancedController {
                 }
             }
         };
-        combobox_revanced_patches.getSelectionModel().selectedItemProperty().addListener(revancedPatchesChangeListener);
+        combobox_patches.getSelectionModel().selectedItemProperty().addListener(patchesChangeListener);
         if (ApiFactory.getInstance().getApi().getApiVersion() != ApiVersion.V4) {
             enableIntegrationsUi(false);
         }
@@ -90,7 +90,7 @@ public class TabRevancedController {
     }
 
     /**
-     * Initiates tasks to update revanced-cli, revanced-integrations, vanced microg and revanced-pathces resources
+     * Initiates tasks to update cli, integrations, vanced microg and patches resources
      */
     public void updateResources() {
         ExecutorService executorService = Executors.newFixedThreadPool(2);
@@ -98,7 +98,7 @@ public class TabRevancedController {
         executorService.submit(new ResourceCheck(
                 api.getCliResource(),
                 text_area,
-                combobox_revanced_cli,
+                combobox_cli,
                 Preferences.getInstance().getBooleanPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
                 null
                 ));
@@ -106,7 +106,7 @@ public class TabRevancedController {
             executorService.submit(new ResourceCheck(
                     api.getIntegrationsResource(),
                     text_area,
-                    combobox_revanced_integration,
+                    combobox_integration,
                     Preferences.getInstance().getBooleanPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
                     null
             ));
@@ -121,9 +121,9 @@ public class TabRevancedController {
         executorService.submit(new ResourceCheck(
                 api.getPatchesResource(),
                 text_area,
-                combobox_revanced_patches,
+                combobox_patches,
                 Preferences.getInstance().getBooleanPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
-                revancedPatchesChangeListener,
+                patchesChangeListener,
                 () -> {
                     if (Preferences.getInstance().getBooleanPreferenceValue(Preference.PRINT_SUPPORTED_VERSIONS)) {
                         printSupportedVersions();
@@ -138,10 +138,10 @@ public class TabRevancedController {
      */
     private void populateComboboxes() {
         onApkToPatchRefresh();
-        onRevancedCliRefresh();
-        onRevancedPatchesRefresh();
+        onCliRefresh();
+        onPatchesRefresh();
         if (ApiFactory.getInstance().getApi().getApiVersion() == ApiVersion.V4) {
-            onRevancedIntegrationsRefresh();
+            onIntegrationsRefresh();
         }
         onMicroGRefresh();
     }
@@ -183,8 +183,8 @@ public class TabRevancedController {
      * @return command with user selected resources
      */
     private List<ArrayList<String>> getCommands() {
-        return ApiFactory.getInstance().getApi().getCommands(combobox_revanced_cli.getValue(), combobox_revanced_patches.getValue(),
-                combobox_revanced_integration.getValue(), combobox_apk_to_patch.getValue(), checkbox_exclude.isSelected(),
+        return ApiFactory.getInstance().getApi().getCommands(combobox_cli.getValue(), combobox_patches.getValue(),
+                combobox_integration.getValue(), combobox_apk_to_patch.getValue(), checkbox_exclude.isSelected(),
                 checkbox_include.isSelected(), getOutputPath(), combobox_devices.getValue(), tabExcludeController,
                 tabIncludeController);
     }
@@ -213,12 +213,12 @@ public class TabRevancedController {
             this.text_area.appendText("Please select an apk to patch\n");
             selected = false;
         }
-        if (this.combobox_revanced_cli.getValue()== null || this.combobox_revanced_cli.getValue().isEmpty()) {
-            this.text_area.appendText("Please select a Revanced CLI version\n");
+        if (this.combobox_cli.getValue()== null || this.combobox_cli.getValue().isEmpty()) {
+            this.text_area.appendText("Please select a CLI version\n");
             selected = false;
         }
-        if (this.combobox_revanced_patches.getValue()== null || this.combobox_revanced_patches.getValue().isEmpty()) {
-            this.text_area.appendText("Please select a Revanced Patches version\n");
+        if (this.combobox_patches.getValue()== null || this.combobox_patches.getValue().isEmpty()) {
+            this.text_area.appendText("Please select a Patches version\n");
             selected = false;
         }
         if (Preferences.getInstance().getBooleanPreferenceValue(Preference.INSTALL_AFTER_PATCH) && (this.combobox_devices.getValue()== null || this.combobox_devices.getValue().isEmpty())) {
@@ -258,41 +258,41 @@ public class TabRevancedController {
     }
 
     /**
-     * Refresh ReVanced CLI jar file list
+     * Refresh CLI jar file list
      */
-    public void onRevancedCliRefresh() {
-        combobox_revanced_cli.getItems().setAll(
+    public void onCliRefresh() {
+        combobox_cli.getItems().setAll(
                 Arrays.stream(new File(ApiFactory.getInstance().getApi().getCliResource().getFolderName()).list())
                         .sorted(this.vc)
                         .collect(Collectors.toList())
         );
-        combobox_revanced_cli.getSelectionModel().select(0);
+        combobox_cli.getSelectionModel().select(0);
     }
 
     /**
-     * Refresh ReVanced Patches file list
+     * Refresh Patches file list
      */
-    public void onRevancedPatchesRefresh() {
-        combobox_revanced_patches.getSelectionModel().selectedItemProperty().removeListener(this.revancedPatchesChangeListener);
-        combobox_revanced_patches.getItems().setAll(
+    public void onPatchesRefresh() {
+        combobox_patches.getSelectionModel().selectedItemProperty().removeListener(this.patchesChangeListener);
+        combobox_patches.getItems().setAll(
                 Arrays.stream(new File(ApiFactory.getInstance().getApi().getPatchesResource().getFolderName()).list())
                         .sorted(this.vc)
                         .collect(Collectors.toList())
         );
-        combobox_revanced_patches.getSelectionModel().selectedItemProperty().addListener(this.revancedPatchesChangeListener);
-        combobox_revanced_patches.getSelectionModel().select(0);
+        combobox_patches.getSelectionModel().selectedItemProperty().addListener(this.patchesChangeListener);
+        combobox_patches.getSelectionModel().select(0);
     }
 
     /**
-     * Refresh ReVanced Integration apk file list
+     * Refresh Integration apk file list
      */
-    public void onRevancedIntegrationsRefresh() {
-        combobox_revanced_integration.getItems().setAll(
+    public void onIntegrationsRefresh() {
+        combobox_integration.getItems().setAll(
                 Arrays.stream(new File(ApiFactory.getInstance().getApi().getIntegrationsResource().getFolderName()).list())
                         .sorted((this.vc))
                         .collect(Collectors.toList())
         );
-        combobox_revanced_integration.getSelectionModel().select(0);
+        combobox_integration.getSelectionModel().select(0);
     }
 
     /**
@@ -384,8 +384,8 @@ public class TabRevancedController {
     private void loadPatchesExclude() {
         Api api = ApiFactory.getInstance().getApi();
         tabExcludeController.loadPatches(
-                api.getCliResource().getFolderName() + File.separatorChar + combobox_revanced_cli.getValue(),
-                api.getPatchesResource().getFolderName() + File.separatorChar + combobox_revanced_patches.getValue()
+                api.getCliResource().getFolderName() + File.separatorChar + combobox_cli.getValue(),
+                api.getPatchesResource().getFolderName() + File.separatorChar + combobox_patches.getValue()
         );
     }
 
@@ -395,8 +395,8 @@ public class TabRevancedController {
     private void loadPatchesInclude() {
         Api api = ApiFactory.getInstance().getApi();
         tabIncludeController.loadPatches(
-                api.getCliResource().getFolderName() + File.separatorChar + combobox_revanced_cli.getValue(),
-                api.getPatchesResource().getFolderName() + File.separatorChar + combobox_revanced_patches.getValue()
+                api.getCliResource().getFolderName() + File.separatorChar + combobox_cli.getValue(),
+                api.getPatchesResource().getFolderName() + File.separatorChar + combobox_patches.getValue()
         );
     }
 
@@ -404,7 +404,7 @@ public class TabRevancedController {
      * Prints supported YouTube version to the TextArea
      */
     private void printSupportedVersions() {
-        new Thread(new ListVersions(text_area, combobox_revanced_cli.getValue(), combobox_revanced_patches.getValue())).start();
+        new Thread(new ListVersions(text_area, combobox_cli.getValue(), combobox_patches.getValue())).start();
     }
 
     /**
@@ -454,12 +454,12 @@ public class TabRevancedController {
     }
 
     /**
-     * Enable or disable UI elements associated with ReVanced integrations
+     * Enable or disable UI elements associated with integrations
      * @param status true - enable, false - disable
      */
     public void enableIntegrationsUi(boolean status) {
-        combobox_revanced_integration.setDisable(!status);
-        on_revanced_integrations_refresh.setDisable(!status);
+        combobox_integration.setDisable(!status);
+        on_integrations_refresh.setDisable(!status);
     }
 
     /**

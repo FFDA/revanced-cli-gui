@@ -27,12 +27,12 @@ public class TabExcludeController {
 
     /**
      * Executes the task that load all available patches.
-     * Available patches list retrieved from ReVanced-CLI using -l flag.
-     * @param revancedCli ReVanced-CLI to retrieve available patch list
-     * @param revancedPatches revanced-patches.apk to read the patch list from
+     * Available patches list retrieved from cli.
+     * @param cli cli file to retrieve available patch list
+     * @param patches patches apk to read the patch list from
      */
-    public void loadPatches(String revancedCli, String revancedPatches) {
-        new Thread(new ListPatches(revancedCli, revancedPatches, content, packages, patches)).start();
+    public void loadPatches(String cli, String patches) {
+        new Thread(new ListPatches(cli, patches, content, packages, patches)).start();
     }
 
     /**

@@ -53,16 +53,16 @@ public class Api implements IApiResources {
 
     /**
      * Get all patches available with selected cli and patches
-     * @param revancedCli path to selected revanced-cli
-     * @param revancedPatches path to selected revanced-patches
+     * @param cli path to selected cli
+     * @param patches path to selected patches
      * @return list of patches in PatchDto objects
      * @throws IOException exception when getPatches() fails to read command output
      */
-    public ArrayList<PatchDto> getPatches(String revancedCli, String revancedPatches) throws IOException {
+    public ArrayList<PatchDto> getPatches(String cli, String patches) throws IOException {
         Runtime runtime = Runtime.getRuntime();
-        Process process = runtime.exec(String.format(getListPatchesCommand(), revancedCli, revancedPatches));
+        Process process = runtime.exec(String.format(getListPatchesCommand(), cli, patches));
         BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
-        List<String> packages = new ArrayList<>(); // Stores all patches from revanced-cli command output. One package per String
+        List<String> packages = new ArrayList<>(); // Stores all patches from cli command output. One package per String
         // Collects patch information
         StringBuilder singlePackage = new StringBuilder();
         String line;
@@ -142,12 +142,12 @@ public class Api implements IApiResources {
     }
 
     /**
-     * Creates two commands. First command is to patch selected apk using Revance-Cli and other provided dependencies
+     * Creates two commands. First command is to patch selected apk using cli and other provided dependencies
      * and user chosen options. Second command is for installing to chosen device. Seconds command might be null if
      * user do not check "Install after patching" checkbox.
-     * @param cli filename of selected Revanced-Cli
-     * @param patches filename of selected Revanced-Patches
-     * @param integrations filename of selected Revanced-integrations
+     * @param cli filename of selected cli
+     * @param patches filename of selected patches
+     * @param integrations filename of selected integrations
      * @param patchApk filename of selected apk to be patched
      * @param exclude true if Exclude tab is visible, false - otherwise
      * @param include true if Include tab is visible, false - otherwise
