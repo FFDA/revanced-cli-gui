@@ -19,7 +19,7 @@ public class TabIncludeController {
     private ComboBox<String> packages;
     @FXML
     private TextField filter;
-    private final ArrayList<PatchDto> patches = new ArrayList<>();
+    private final ArrayList<PatchDto> patchesList = new ArrayList<>();
 
     public void initialize() {
         filter.textProperty().addListener(new PatchFilterListener(content));
@@ -32,7 +32,7 @@ public class TabIncludeController {
      * @param patches patches apk to read the patch list from
      */
     public void loadPatches(String cli, String patches) {
-        new Thread(new ListPatches(cli, patches, content, packages, patches)).start();
+        new Thread(new ListPatches(cli, patches, content, packages, patchesList)).start();
     }
 
     /**
@@ -44,6 +44,6 @@ public class TabIncludeController {
     }
 
     public void onPackageSelected() {
-        new Thread(new UpdatePatchListInclude(content, patches, packages.getSelectionModel().getSelectedItem())).start();
+        new Thread(new UpdatePatchListInclude(content, patchesList, packages.getSelectionModel().getSelectedItem())).start();
     }
 }

@@ -19,7 +19,7 @@ public class TabExcludeController {
     private ComboBox<String> packages;
     @FXML
     private TextField filter;
-    private ArrayList<PatchDto> patches = new ArrayList<>();
+    private ArrayList<PatchDto> patchesList = new ArrayList<>();
 
     public void initialize() {
         filter.textProperty().addListener(new PatchFilterListener(content));
@@ -32,7 +32,7 @@ public class TabExcludeController {
      * @param patches patches apk to read the patch list from
      */
     public void loadPatches(String cli, String patches) {
-        new Thread(new ListPatches(cli, patches, content, packages, patches)).start();
+        new Thread(new ListPatches(cli, patches, content, packages, patchesList)).start();
     }
 
     /**
@@ -47,6 +47,6 @@ public class TabExcludeController {
      * Updates patches list to show patches available only for selected package (app)
      */
     public void onPackageSelected() {
-        new Thread(new UpdatePatchListExclude(content, patches, packages.getSelectionModel().getSelectedItem())).start();
+        new Thread(new UpdatePatchListExclude(content, patchesList, packages.getSelectionModel().getSelectedItem())).start();
     }
 }
