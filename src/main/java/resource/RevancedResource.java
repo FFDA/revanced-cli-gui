@@ -1,6 +1,6 @@
-package lt.ffda.revancedcligui.util;
+package resource;
 
-public enum Resource {
+public enum RevancedResource implements IResource {
     APK_TO_PATCH("Apk to patch", "apk-to-patch", "", "apk"),
     REVANCED_CLI("Revanced CLI","revanced-cli", "https://api.github.com/repos/revanced/revanced-cli/releases", "jar"),
     REVANCED_PATCHES("Revanced patches","revanced-patches", "https://api.github.com/repos/revanced/revanced-patches/releases", "rvp"),
@@ -14,7 +14,7 @@ public enum Resource {
     private final String releasesUrl;
     private final String extension;
 
-    Resource(String name, String folderName, String releasesUrl, String extension) {
+    RevancedResource(String name, String folderName, String releasesUrl, String extension) {
         this.name = name;
         this.folderName = folderName;
         this.releasesUrl = releasesUrl;

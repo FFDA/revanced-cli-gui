@@ -1,5 +1,7 @@
 package lt.ffda.revancedcligui.util;
 
+import lt.ffda.revancedcligui.api.ApiFactory;
+
 import java.io.*;
 
 public class Adb {
@@ -22,10 +24,11 @@ public class Adb {
      */
     public void initAdb() {
         if (Preferences.getInstance().getBooleanPreferenceValue(Preference.USE_EMBEDDED_ADB)) {
+            String folder = ApiFactory.getInstance().getApi().getAdbResource().getFolderName();
             if (System.getProperty("os.name").equals("Linux")) {
-                adb = Resource.ADB.getFolderName() + File.separatorChar + "adb";
+                adb = folder + File.separatorChar + "adb";
             } else {
-                adb = Resource.ADB.getFolderName() + File.separatorChar + "adb.exe";
+                adb = folder + File.separatorChar + "adb.exe";
             }
         } else {
             if (System.getProperty("os.name").equals("Linux")) {
@@ -41,11 +44,12 @@ public class Adb {
      * For Linux it also adds permissions to execute the binary
      */
     public void saveAdb() {
-        new File(Resource.ADB.getFolderName()).mkdir();
+        String folder = ApiFactory.getInstance().getApi().getAdbResource().getFolderName();
+        new File(folder).mkdir();
         try {
             File outputFile;
             if (System.getProperty("os.name").equals("Linux")) {
-                outputFile = new File(Resource.ADB.getFolderName() + File.separatorChar + "adb");
+                outputFile = new File(folder + File.separatorChar + "adb");
                 if (!outputFile.createNewFile()) {
                     // File already exists
                     return;
@@ -54,9 +58,9 @@ public class Adb {
                         Adb.class.getResource("/adb").openStream(),
                         new FileOutputStream(outputFile)
                 );
-                Runtime.getRuntime().exec(String.format("chmod +x %1$s", Resource.ADB.getFolderName() + File.separatorChar + "adb"));
+                Runtime.getRuntime().exec(String.format("chmod +x %1$s", folder + File.separatorChar + "adb"));
             } else {
-                outputFile = new File(Resource.ADB.getFolderName() + File.separatorChar + "adb.exe");
+                outputFile = new File(folder + File.separatorChar + "adb.exe");
                 if (!outputFile.createNewFile()) {
                     // File already exists
                     return;
@@ -67,10 +71,10 @@ public class Adb {
                 );
                 this.writeStream(
                         Adb.class.getResource("/AdbWinApi.dll").openStream(),
-                        new FileOutputStream(Resource.ADB.getFolderName() + File.separatorChar + "AdbWinApi.dll"));
+                        new FileOutputStream(folder + File.separatorChar + "AdbWinApi.dll"));
                 this.writeStream(
                         Adb.class.getResource("/AdbWinUsbApi.dll").openStream(),
-                        new FileOutputStream(Resource.ADB.getFolderName() + File.separatorChar + "AdbWinUsbApi.dll"));
+                        new FileOutputStream(folder + File.separatorChar + "AdbWinUsbApi.dll"));
             }
         } catch (IOException e) {
             e.printStackTrace();

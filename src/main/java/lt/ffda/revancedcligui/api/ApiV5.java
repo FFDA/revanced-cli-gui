@@ -9,7 +9,6 @@ import lt.ffda.revancedcligui.controller.TabIncludeController;
 import lt.ffda.revancedcligui.util.ApiVersion;
 import lt.ffda.revancedcligui.util.Preference;
 import lt.ffda.revancedcligui.util.Preferences;
-import lt.ffda.revancedcligui.util.Resource;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -58,7 +57,7 @@ public class ApiV5 extends Api {
         ArrayList<String> commandPatch = new ArrayList<>();
         commandPatch.add("java");
         commandPatch.add("-jar");
-        commandPatch.add(Resource.REVANCED_CLI.getFolderName() + File.separatorChar + cli);
+        commandPatch.add(getCliResource().getFolderName() + File.separatorChar + cli);
         commandPatch.add("patch");
         if (Preferences.getInstance().getBooleanPreferenceValue(Preference.USE_KEYSTORE_FILE)) {
             commandPatch.add("--keystore=yt-ks.keystore");
@@ -67,7 +66,7 @@ public class ApiV5 extends Api {
             commandPatch.add("--purge");
         }
         commandPatch.add("-p");
-        commandPatch.add(Resource.REVANCED_PATCHES.getFolderName() + File.separatorChar + patches);
+        commandPatch.add(getPatchesResource().getFolderName() + File.separatorChar + patches);
         if (exclude) {
             commandPatch.addAll(tabExcludeController.getExcludedPatches());
         }
@@ -76,13 +75,13 @@ public class ApiV5 extends Api {
         }
         commandPatch.add("-o");
         commandPatch.add(outputPath);
-        commandPatch.add(Resource.APK_TO_PATCH.getFolderName() + File.separatorChar + patchApk);
+        commandPatch.add(getApkToPatchResource().getFolderName() + File.separatorChar + patchApk);
         ArrayList<String> commandInstall = null;
         if (Preferences.getInstance().getBooleanPreferenceValue(Preference.INSTALL_AFTER_PATCH)) {
             commandInstall = new ArrayList<>();
             commandInstall.add("java");
             commandInstall.add("-jar");
-            commandInstall.add(Resource.REVANCED_CLI.getFolderName() + File.separatorChar + cli);
+            commandInstall.add(getCliResource().getFolderName() + File.separatorChar + cli);
             commandInstall.add("utility");
             commandInstall.add("install");
             commandInstall.add("-a");

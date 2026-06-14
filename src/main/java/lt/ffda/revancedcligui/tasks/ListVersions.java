@@ -2,12 +2,16 @@ package lt.ffda.revancedcligui.tasks;
 
 import javafx.concurrent.Task;
 import javafx.scene.control.TextArea;
-import lt.ffda.revancedcligui.util.Resource;
+import lt.ffda.revancedcligui.api.Api;
+import lt.ffda.revancedcligui.api.ApiFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Uses revanced-cli command to list all supported YouTube apk versions
@@ -61,13 +65,14 @@ public class ListVersions extends Task<Void> {
      * @return command can be run to get supported YouTube versions
      */
     private String getCommand() {
+        Api api = ApiFactory.getInstance().getApi();
         StringBuilder command = new StringBuilder("java -jar ");
-        command.append(Resource.REVANCED_CLI.getFolderName())
+        command.append(api.getCliResource().getFolderName())
                 .append(File.separatorChar)
                 .append(this.cli)
                 .append(" list-versions")
                 .append(" -f com.google.android.youtube -u ")
-                .append(Resource.REVANCED_PATCHES.getFolderName())
+                .append(api.getPatchesResource().getFolderName())
                 .append(File.separatorChar)
                 .append(this.patches);
         return command.toString();

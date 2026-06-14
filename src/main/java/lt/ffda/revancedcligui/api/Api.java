@@ -10,7 +10,8 @@ import lt.ffda.revancedcligui.dto.PatchDto;
 import lt.ffda.revancedcligui.util.ApiVersion;
 import lt.ffda.revancedcligui.util.Preference;
 import lt.ffda.revancedcligui.util.Preferences;
-import lt.ffda.revancedcligui.util.Resource;
+import resource.IResource;
+import resource.RevancedResource;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -26,7 +27,7 @@ import java.util.regex.Pattern;
  * Api class that provides all the methods necessary to use revanced-cli-gui with selected API level in settings using
  * Api v4. For other Api versions overwrite necessary methods.
  */
-public class Api {
+public class Api implements IApiResources {
 
     public Api() {}
 
@@ -162,7 +163,7 @@ public class Api {
         ArrayList<String> commandPatch = new ArrayList<>();
         commandPatch.add("java");
         commandPatch.add("-jar");
-        commandPatch.add(Resource.REVANCED_CLI.getFolderName() + File.separatorChar + cli);
+        commandPatch.add(getCliResource().getFolderName() + File.separatorChar + cli);
         commandPatch.add("patch");
         if (Preferences.getInstance().getBooleanPreferenceValue(Preference.USE_KEYSTORE_FILE)) {
             commandPatch.add("--keystore=yt-ks.keystore");
@@ -171,9 +172,9 @@ public class Api {
             commandPatch.add("-p");
         }
         commandPatch.add("-b");
-        commandPatch.add(Resource.REVANCED_PATCHES.getFolderName() + File.separatorChar + patches);
+        commandPatch.add(getPatchesResource().getFolderName() + File.separatorChar + patches);
         commandPatch.add("-m");
-        commandPatch.add(Resource.REVANCED_INTEGRATIONS.getFolderName() + File.separatorChar + integrations);
+        commandPatch.add(getIntegrationsResource().getFolderName() + File.separatorChar + integrations);
         if (exclude) {
             commandPatch.addAll(tabExcludeController.getExcludedPatches());
         }
@@ -182,13 +183,13 @@ public class Api {
         }
         commandPatch.add("-o");
         commandPatch.add(outputPath);
-        commandPatch.add(Resource.APK_TO_PATCH.getFolderName() + File.separatorChar + patchApk);
+        commandPatch.add(getApkToPatchResource().getFolderName() + File.separatorChar + patchApk);
         ArrayList<String> commandInstall = null;
         if (Preferences.getInstance().getBooleanPreferenceValue(Preference.INSTALL_AFTER_PATCH)) {
             commandInstall = new ArrayList<>();
             commandInstall.add("java");
             commandInstall.add("-jar");
-            commandInstall.add(Resource.REVANCED_CLI.getFolderName() + File.separatorChar + cli);
+            commandInstall.add(getCliResource().getFolderName() + File.separatorChar + cli);
             commandInstall.add("utility");
             commandInstall.add("install");
             commandInstall.add("-a");
@@ -196,5 +197,40 @@ public class Api {
             commandInstall.add(device.split(" - ")[0]);
         }
         return new ArrayList<>(Arrays.asList(commandPatch, commandInstall));
+    }
+
+    @Override
+    public IResource getApkToPatchResource() {
+        return RevancedResource.APK_TO_PATCH;
+    }
+
+    @Override
+    public IResource getCliResource() {
+        return RevancedResource.REVANCED_CLI;
+    }
+
+    @Override
+    public IResource getPatchesResource() {
+        return RevancedResource.REVANCED_PATCHES;
+    }
+
+    @Override
+    public IResource getIntegrationsResource() {
+        return RevancedResource.REVANCED_INTEGRATIONS;
+    }
+
+    @Override
+    public IResource getMicroGResource() {
+        return RevancedResource.MICROG;
+    }
+
+    @Override
+    public IResource getAdbResource() {
+        return RevancedResource.ADB;
+    }
+
+    @Override
+    public IResource getPatchedApksResource() {
+        return RevancedResource.PATCHED_APKS;
     }
 }

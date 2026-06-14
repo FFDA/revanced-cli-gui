@@ -5,9 +5,10 @@ import javafx.beans.value.ChangeListener;
 import javafx.concurrent.Task;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
-import lt.ffda.revancedcligui.util.Resource;
+import lt.ffda.revancedcligui.api.ApiFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import resource.IResource;
 
 import java.io.*;
 import java.net.URL;
@@ -16,7 +17,7 @@ import java.util.Comparator;
 import java.util.stream.Collectors;
 
 public class ResourceCheck extends Task<Void> {
-    private final Resource resource;
+    private final IResource resource;
     private final TextArea textArea;
     private final ComboBox<String> comboBox;
     private final boolean downloadDevReleases;
@@ -32,7 +33,7 @@ public class ResourceCheck extends Task<Void> {
      * @param downloadDevReleases true - do download pre releases
      * @param changeListener pass ChangeListener of the combobox if it has one to disable it
      */
-    public ResourceCheck(Resource resource, TextArea textArea, ComboBox<String> comboBox, boolean downloadDevReleases, ChangeListener<String> changeListener, ResourceCheckCallback resourceCheckCallback) {
+    public ResourceCheck(IResource resource, TextArea textArea, ComboBox<String> comboBox, boolean downloadDevReleases, ChangeListener<String> changeListener, ResourceCheckCallback resourceCheckCallback) {
         this.resource = resource;
         this.textArea = textArea;
         this.comboBox = comboBox;
@@ -49,7 +50,7 @@ public class ResourceCheck extends Task<Void> {
      * @param comboBox resource combo box to update if new resource was found
      * @param downloadDevReleases true - do download pre releases
      */
-    public ResourceCheck(Resource resource, TextArea textArea, ComboBox<String> comboBox, boolean downloadDevReleases, ResourceCheckCallback resourceCheckCallback) {
+    public ResourceCheck(IResource resource, TextArea textArea, ComboBox<String> comboBox, boolean downloadDevReleases, ResourceCheckCallback resourceCheckCallback) {
         this(resource, textArea, comboBox, downloadDevReleases, null, resourceCheckCallback);
     }
 
@@ -70,7 +71,7 @@ public class ResourceCheck extends Task<Void> {
                     continue;
                 }
                 releaseJson = getReleaseJsonObject(resource, releasesArray.getJSONObject(i).getJSONArray("assets"));
-                if (resource == Resource.MICROG) {
+                if (resource == ApiFactory.getInstance().getApi().getMicroGResource()) {
                     filename = String.format("microg_%1$s.apk", releasesArray.getJSONObject(i).getString("tag_name"));
                 } else {
                     filename = releaseJson.getString("name");
@@ -142,7 +143,7 @@ public class ResourceCheck extends Task<Void> {
      * @param assets assets from release
      * @return JSONObject with resource that can be downloaded, null - not found
      */
-    private JSONObject getReleaseJsonObject(Resource resource, JSONArray assets) {
+    private JSONObject getReleaseJsonObject(IResource resource, JSONArray assets) {
         JSONObject object = null;
         for (int i = 0; i < assets.length(); i++) {
             String filename = assets.getJSONObject(i).getString("name");

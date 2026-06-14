@@ -37,5 +37,11 @@ build/
 ### Mac OS ###
 .DS_Store
 
-### test config ###
+### test env files###
 conf.prefs
+microg/
+apk-to-patch/
+revanced-cli/
+patched-apks/
+revanced-integrations/
+revanced-patches/

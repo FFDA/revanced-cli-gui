@@ -5,10 +5,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import lt.ffda.revancedcligui.api.Api;
+import lt.ffda.revancedcligui.api.ApiFactory;
 import lt.ffda.revancedcligui.util.Adb;
 import lt.ffda.revancedcligui.util.Preference;
 import lt.ffda.revancedcligui.util.Preferences;
-import lt.ffda.revancedcligui.util.Resource;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,12 +43,13 @@ public class RevancedCliGui extends Application {
      * Creates folder structure for program to store files
      */
     private void createFolderStructure() {
-        new File(Resource.APK_TO_PATCH.getFolderName()).mkdir();
-        new File(Resource.REVANCED_CLI.getFolderName()).mkdir();
-        new File(Resource.REVANCED_PATCHES.getFolderName()).mkdir();
-        new File(Resource.REVANCED_INTEGRATIONS.getFolderName()).mkdir();
-        new File(Resource.MICROG.getFolderName()).mkdir();
-        new File(Resource.PATCHED_APKS.getFolderName()).mkdir();
+        Api api = ApiFactory.getInstance().getApi();
+        new File(api.getApkToPatchResource().getFolderName()).mkdir();
+        new File(api.getCliResource().getFolderName()).mkdir();
+        new File(api.getPatchesResource().getFolderName()).mkdir();
+        new File(api.getIntegrationsResource().getFolderName()).mkdir();
+        new File(api.getMicroGResource().getFolderName()).mkdir();
+        new File(api.getPatchedApksResource().getFolderName()).mkdir();
         if (Preferences.getInstance().getBooleanPreferenceValue(Preference.USE_EMBEDDED_ADB)) {
             Adb.getInstance().saveAdb();
         }

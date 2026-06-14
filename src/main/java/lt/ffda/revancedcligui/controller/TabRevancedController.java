@@ -3,16 +3,20 @@ package lt.ffda.revancedcligui.controller;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import lt.ffda.revancedcligui.api.Api;
 import lt.ffda.revancedcligui.api.ApiFactory;
-import lt.ffda.revancedcligui.api.ApiV4;
-import lt.ffda.revancedcligui.tasks.*;
-import javafx.fxml.FXML;
+import lt.ffda.revancedcligui.tasks.DeviceCheck;
+import lt.ffda.revancedcligui.tasks.ListVersions;
+import lt.ffda.revancedcligui.tasks.Patcher;
+import lt.ffda.revancedcligui.tasks.ResourceCheck;
 import lt.ffda.revancedcligui.util.*;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -90,16 +94,17 @@ public class TabRevancedController {
      */
     public void updateResources() {
         ExecutorService executorService = Executors.newFixedThreadPool(2);
+        Api api = ApiFactory.getInstance().getApi();
         executorService.submit(new ResourceCheck(
-                Resource.REVANCED_CLI,
+                api.getCliResource(),
                 text_area,
                 combobox_revanced_cli,
                 Preferences.getInstance().getBooleanPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
                 null
                 ));
-        if (ApiFactory.getInstance().getApi().getApiVersion() == ApiVersion.V4) {
+        if (api.getApiVersion() == ApiVersion.V4) {
             executorService.submit(new ResourceCheck(
-                    Resource.REVANCED_INTEGRATIONS,
+                    api.getIntegrationsResource(),
                     text_area,
                     combobox_revanced_integration,
                     Preferences.getInstance().getBooleanPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
@@ -107,14 +112,14 @@ public class TabRevancedController {
             ));
         }
         executorService.submit(new ResourceCheck(
-                Resource.MICROG,
+                api.getMicroGResource(),
                 text_area,
                 combobox_microg,
                 Preferences.getInstance().getBooleanPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
                 null
         ));
         executorService.submit(new ResourceCheck(
-                Resource.REVANCED_PATCHES,
+                api.getPatchesResource(),
                 text_area,
                 combobox_revanced_patches,
                 Preferences.getInstance().getBooleanPreferenceValue(Preference.DOWNLOAD_DEV_RELEASES),
@@ -194,7 +199,7 @@ public class TabRevancedController {
         installMicroGCommand.add("-s");
         installMicroGCommand.add(combobox_devices.getValue().split(" - ")[0]);
         installMicroGCommand.add("install");
-        installMicroGCommand.add(Resource.MICROG.getFolderName() + File.separatorChar + this.combobox_microg.getValue());
+        installMicroGCommand.add(ApiFactory.getInstance().getApi().getMicroGResource().getFolderName() + File.separatorChar + this.combobox_microg.getValue());
         return installMicroGCommand;
     }
 
@@ -245,7 +250,7 @@ public class TabRevancedController {
      */
     public void onApkToPatchRefresh() {
         combobox_apk_to_patch.getItems().setAll(
-                Arrays.stream(new File(Resource.APK_TO_PATCH.getFolderName()).list())
+                Arrays.stream(new File(ApiFactory.getInstance().getApi().getApkToPatchResource().getFolderName()).list())
                         .sorted(Comparator.reverseOrder())
                         .collect(Collectors.toList())
         );
@@ -257,7 +262,7 @@ public class TabRevancedController {
      */
     public void onRevancedCliRefresh() {
         combobox_revanced_cli.getItems().setAll(
-                Arrays.stream(new File(Resource.REVANCED_CLI.getFolderName()).list())
+                Arrays.stream(new File(ApiFactory.getInstance().getApi().getCliResource().getFolderName()).list())
                         .sorted(this.vc)
                         .collect(Collectors.toList())
         );
@@ -270,7 +275,7 @@ public class TabRevancedController {
     public void onRevancedPatchesRefresh() {
         combobox_revanced_patches.getSelectionModel().selectedItemProperty().removeListener(this.revancedPatchesChangeListener);
         combobox_revanced_patches.getItems().setAll(
-                Arrays.stream(new File(Resource.REVANCED_PATCHES.getFolderName()).list())
+                Arrays.stream(new File(ApiFactory.getInstance().getApi().getPatchesResource().getFolderName()).list())
                         .sorted(this.vc)
                         .collect(Collectors.toList())
         );
@@ -283,7 +288,7 @@ public class TabRevancedController {
      */
     public void onRevancedIntegrationsRefresh() {
         combobox_revanced_integration.getItems().setAll(
-                Arrays.stream(new File(Resource.REVANCED_INTEGRATIONS.getFolderName()).list())
+                Arrays.stream(new File(ApiFactory.getInstance().getApi().getIntegrationsResource().getFolderName()).list())
                         .sorted((this.vc))
                         .collect(Collectors.toList())
         );
@@ -295,7 +300,7 @@ public class TabRevancedController {
      */
     public void onMicroGRefresh() {
         combobox_microg.getItems().setAll(
-                Arrays.stream(new File(Resource.MICROG.getFolderName()).list())
+                Arrays.stream(new File(ApiFactory.getInstance().getApi().getMicroGResource().getFolderName()).list())
                         .sorted(Comparator.reverseOrder())
                         .collect(Collectors.toList())
         );
@@ -377,9 +382,10 @@ public class TabRevancedController {
      * Load all available patches to the HBox of "Exclude" tab
      */
     private void loadPatchesExclude() {
+        Api api = ApiFactory.getInstance().getApi();
         tabExcludeController.loadPatches(
-                Resource.REVANCED_CLI.getFolderName() + File.separatorChar + combobox_revanced_cli.getValue(),
-                Resource.REVANCED_PATCHES.getFolderName() + File.separatorChar + combobox_revanced_patches.getValue()
+                api.getCliResource().getFolderName() + File.separatorChar + combobox_revanced_cli.getValue(),
+                api.getPatchesResource().getFolderName() + File.separatorChar + combobox_revanced_patches.getValue()
         );
     }
 
@@ -387,9 +393,10 @@ public class TabRevancedController {
      * Load all available patches to the HBox of "Include" tab
      */
     private void loadPatchesInclude() {
+        Api api = ApiFactory.getInstance().getApi();
         tabIncludeController.loadPatches(
-                Resource.REVANCED_CLI.getFolderName() + File.separatorChar + combobox_revanced_cli.getValue(),
-                Resource.REVANCED_PATCHES.getFolderName() + File.separatorChar + combobox_revanced_patches.getValue()
+                api.getCliResource().getFolderName() + File.separatorChar + combobox_revanced_cli.getValue(),
+                api.getPatchesResource().getFolderName() + File.separatorChar + combobox_revanced_patches.getValue()
         );
     }
 
@@ -416,7 +423,7 @@ public class TabRevancedController {
     private String getOutputPath() {
         String patchedApkFilename = String.format("revanced_%1$s", combobox_apk_to_patch.getValue());
         StringBuilder outputPath = new StringBuilder();
-        outputPath.append(Resource.PATCHED_APKS.getFolderName()).append(File.separatorChar).append(patchedApkFilename);
+        outputPath.append(ApiFactory.getInstance().getApi().getPatchedApksResource().getFolderName()).append(File.separatorChar).append(patchedApkFilename);
         return outputPath.toString();
     }
 
