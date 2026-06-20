@@ -23,6 +23,7 @@ public class PatchFilterListener implements ChangeListener<String> {
                 HBox hBox = (HBox) node;
                 CheckBox checkBox = (CheckBox) hBox.getChildren().get(0);
                 Label label = (Label) hBox.getChildren().get(1);
+                t1 = t1.toLowerCase();
                 if (!checkBox.getText().contains(t1) && !label.getText().contains(t1)) {
                     node.setVisible(false);
                     node.setManaged(false);
