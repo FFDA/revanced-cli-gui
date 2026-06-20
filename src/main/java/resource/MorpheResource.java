@@ -5,7 +5,6 @@ public enum MorpheResource implements IResource {
     MORPHE_CLI("Morphe CLI","cli", "https://api.github.com/repos/MorpheApp/morphe-cli/releases", "jar"),
     MORPHE_PATCHES("Morphe patches","patches", "https://api.github.com/repos/MorpheApp/morphe-patches/releases", "mpp"),
     MICROG("microG", "microg", "https://api.github.com/repos/MorpheApp/MicroG-RE/releases", "apk"),
-    ADB("Android Debugging Bridge", "bin", "https://developer.android.com/tools/releases/platform-tools", ""),
     PATCHED_APKS("Patched APKs", "patched-apks", "", "apk");
 
     private final String name;

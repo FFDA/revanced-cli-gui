@@ -6,7 +6,6 @@ public enum RevancedResource implements IResource {
     REVANCED_PATCHES("Revanced patches","patches", "https://api.github.com/repos/revanced/revanced-patches/releases", "rvp"),
     REVANCED_INTEGRATIONS("Revanced integrations","revanced-integrations", "https://api.github.com/repos/revanced/revanced-integrations/releases", "apk"),
     MICROG("microG", "microg", "https://api.github.com/repos/revanced/gmscore/releases", "apk"),
-    ADB("Android Debugging Bridge", "bin", "https://developer.android.com/tools/releases/platform-tools", ""),
     PATCHED_APKS("Patched APKs", "patched-apks", "", "apk");
 
     private final String name;

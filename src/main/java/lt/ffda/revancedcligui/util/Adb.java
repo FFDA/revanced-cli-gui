@@ -1,8 +1,6 @@
 package lt.ffda.revancedcligui.util;
 
-import lt.ffda.revancedcligui.api.ApiFactory;
-
-import java.io.*;
+import java.io.IOException;
 
 public class Adb {
     private final static Adb instance = new Adb();
@@ -23,78 +21,16 @@ public class Adb {
      * Creates path to ADB executable depending on OS and if program should use embedded one or not
      */
     public void initAdb() {
-        if (Preferences.getInstance().getBooleanPreferenceValue(Preference.USE_EMBEDDED_ADB)) {
-            String folder = ApiFactory.getInstance().getApi().getAdbResource().getFolderName();
-            if (System.getProperty("os.name").equals("Linux")) {
-                adb = folder + File.separatorChar + "adb";
-            } else {
-                adb = folder + File.separatorChar + "adb.exe";
-            }
+        if (System.getProperty("os.name").equals("Linux")) {
+            adb = "adb";
         } else {
-            if (System.getProperty("os.name").equals("Linux")) {
-                adb = "adb";
-            } else {
-                adb = "adb.exe";
-            }
+            adb = "adb.exe";
         }
     }
 
     /**
-     * Saves embedded adb executable to bin folder
-     * For Linux it also adds permissions to execute the binary
-     */
-    public void saveAdb() {
-        String folder = ApiFactory.getInstance().getApi().getAdbResource().getFolderName();
-        new File(folder).mkdir();
-        try {
-            File outputFile;
-            if (System.getProperty("os.name").equals("Linux")) {
-                outputFile = new File(folder + File.separatorChar + "adb");
-                if (!outputFile.createNewFile()) {
-                    // File already exists
-                    return;
-                }
-                this.writeStream(
-                        Adb.class.getResource("/adb").openStream(),
-                        new FileOutputStream(outputFile)
-                );
-                Runtime.getRuntime().exec(String.format("chmod +x %1$s", folder + File.separatorChar + "adb"));
-            } else {
-                outputFile = new File(folder + File.separatorChar + "adb.exe");
-                if (!outputFile.createNewFile()) {
-                    // File already exists
-                    return;
-                }
-                this.writeStream(
-                        Adb.class.getResource("/adb.exe").openStream(),
-                        new FileOutputStream(outputFile)
-                );
-                this.writeStream(
-                        Adb.class.getResource("/AdbWinApi.dll").openStream(),
-                        new FileOutputStream(folder + File.separatorChar + "AdbWinApi.dll"));
-                this.writeStream(
-                        Adb.class.getResource("/AdbWinUsbApi.dll").openStream(),
-                        new FileOutputStream(folder + File.separatorChar + "AdbWinUsbApi.dll"));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Write output stream to input stream and closes them
-     * @param inputStream input stream of the file to read
-     * @param outputStream output stream of the file to write
-     */
-    private void writeStream(InputStream inputStream, OutputStream outputStream) throws IOException {
-        outputStream.write(inputStream.readAllBytes());
-        inputStream.close();
-        outputStream.close();
-    }
-
-    /**
-     * Returns adb from platform-tools_r34.0.4
-     * @return adb file embedded in resources
+     * Get OS specific adb file. adb for Linux, adb.exe for windows
+     * @return OS specific adb file
      */
     public String getAdb() {
         return adb;

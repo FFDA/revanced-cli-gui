@@ -14,6 +14,5 @@ public interface IApiResources {
      */
     IResource getIntegrationsResource();
     IResource getMicroGResource();
-    IResource getAdbResource();
     IResource getPatchedApksResource();
 }

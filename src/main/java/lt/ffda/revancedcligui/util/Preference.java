@@ -4,7 +4,6 @@ package lt.ffda.revancedcligui.util;
  * Available preferences. Preferences can be of two values boolean or string
  */
 public enum Preference {
-    USE_EMBEDDED_ADB(0),
     DOWNLOAD_DEV_RELEASES(0),
     CLEAN_TEMPORARY_FILES(0),
     PRINT_SUPPORTED_VERSIONS(0),

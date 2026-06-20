@@ -9,8 +9,6 @@ import lt.ffda.revancedcligui.api.Api;
 import lt.ffda.revancedcligui.api.ApiFactory;
 import lt.ffda.revancedcligui.util.Adb;
 import lt.ffda.revancedcligui.util.ApiVersion;
-import lt.ffda.revancedcligui.util.Preference;
-import lt.ffda.revancedcligui.util.Preferences;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,9 +51,6 @@ public class RevancedCliGui extends Application {
         }
         new File(api.getMicroGResource().getFolderName()).mkdir();
         new File(api.getPatchedApksResource().getFolderName()).mkdir();
-        if (Preferences.getInstance().getBooleanPreferenceValue(Preference.USE_EMBEDDED_ADB)) {
-            Adb.getInstance().saveAdb();
-        }
     }
 
     @Override

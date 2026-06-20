@@ -60,11 +60,6 @@ public class MorpheApiV1 extends ApiV5 {
     }
 
     @Override
-    public IResource getAdbResource() {
-        return MorpheResource.ADB;
-    }
-
-    @Override
     public IResource getPatchedApksResource() {
         return MorpheResource.PATCHED_APKS;
     }

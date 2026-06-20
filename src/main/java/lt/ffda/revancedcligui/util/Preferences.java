@@ -5,7 +5,10 @@ import lt.ffda.revancedcligui.tasks.WritePreferences;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 /**
  * Preference singleton. Saves preferences in the same folder as all other files for portability
@@ -28,6 +31,8 @@ public class Preferences {
             scanner.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } catch (IllegalArgumentException e) {
+            // ignoring preference that can't be found in enum
         }
     }
 
@@ -42,7 +47,6 @@ public class Preferences {
     private void initNewConf(File file) {
         try {
             FileWriter fileWriter = new FileWriter(file);
-            fileWriter.write(String.format("%1$s=%2$d\n", Preference.USE_EMBEDDED_ADB, 0));
             fileWriter.write(String.format("%1$s=%2$d\n", Preference.DOWNLOAD_DEV_RELEASES, 0));
             fileWriter.write(String.format("%1$s=%2$d\n", Preference.CLEAN_TEMPORARY_FILES, 0));
             fileWriter.write(String.format("%1$s=%2$d\n", Preference.PRINT_SUPPORTED_VERSIONS, 1));

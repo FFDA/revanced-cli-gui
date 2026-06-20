@@ -248,11 +248,6 @@ public class Api implements IApiResources {
     }
 
     @Override
-    public IResource getAdbResource() {
-        return RevancedResource.ADB;
-    }
-
-    @Override
     public IResource getPatchedApksResource() {
         return RevancedResource.PATCHED_APKS;
     }
