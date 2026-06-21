@@ -48,3 +48,4 @@ revanced-patches/
 cli/
 patches/
 *.keystore
+RevancedCliGui/
