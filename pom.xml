@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>lt.ffda</groupId>
-    <artifactId>revanced-cli-gui</artifactId>
+    <artifactId>patcher-cli-gui</artifactId>
     <version>1.5.0</version>
-    <name>revanced-cli-gui</name>
+    <name>patcher-cli-gui</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -59,9 +59,9 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>lt.ffda.revancedcligui/lt.ffda.revancedcligui.RevancedCliGui</mainClass>
-                            <launcher>Revanced-CLI-GUI</launcher>
-                            <jlinkZipName>Revanced-CLI-GUI</jlinkZipName>
+                            <mainClass>lt.ffda.patchercligui/lt.ffda.patchercligui.PatcherCliGui</mainClass>
+                            <launcher>Patcher-CLI-GUI</launcher>
+                            <jlinkZipName>Patcher-CLI-GUI</jlinkZipName>
                             <jlinkImageName>runtime</jlinkImageName>
                             <noManPages>true</noManPages>
                             <stripDebug>true</stripDebug>

@@ -1,11 +1,11 @@
-module lt.ffda.revancedcligui {
+module lt.ffda.patchercligui {
     requires javafx.controls;
     requires javafx.fxml;
     requires jdk.crypto.ec;
     requires org.json;
 
-    opens lt.ffda.revancedcligui to javafx.fxml;
-    exports lt.ffda.revancedcligui;
-    exports lt.ffda.revancedcligui.controller;
-    opens lt.ffda.revancedcligui.controller to javafx.fxml;
+    opens lt.ffda.patchercligui to javafx.fxml;
+    exports lt.ffda.patchercligui;
+    exports lt.ffda.patchercligui.controller;
+    opens lt.ffda.patchercligui.controller to javafx.fxml;
 }
