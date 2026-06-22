@@ -1,19 +1,19 @@
-# ReVanced-CLI-GUI
-Portable GUI for ReVanced-Cli.
+# Patcher-CLI-GUI
+Portable GUI for ReVanced-Cli and Morphe-Cli.
 
 <p align="center">
-	<img src="https://github.com/FFDA/ffda.github.storage/blob/main/images/ReVanced-CLI-GUI.png?raw=true" width="400">
+	<img src="https://github.com/FFDA/ffda.github.storage/blob/main/images/Patcher-CLI-GUI.png?raw=true" width="400">
 </p>
 
 ## Features
-* On start up prints supported YouTube versions by latest [ReVanced-Patches](https://github.com/revanced/revanced-patches)
-* On button click it can check for latest versions of [ReVanced-Cli](https://github.com/revanced/revanced-cli), [ReVanced-Patches](https://github.com/revanced/revanced-patches), [ReVanced-Integrations](https://github.com/revanced/revanced-integrations) and [GsmCore](https://github.com/ReVanced/GmsCore) (MicroG) on GitHub. If newer version found - downloads them.
+* On start up prints supported YouTube versions by latest [Morphe-Patches](https://github.com/MorpheApp/morphe-patches) or [ReVanced-Patches](https://github.com/revanced/revanced-patches)
+* On button click it can check for latest versions of [ReVanced-Cli](https://github.com/revanced/revanced-cli) or [Morphe-Cli](https://github.com/MorpheApp/morphe-cli), [ReVanced-Patches](https://github.com/revanced/revanced-patches) or [Morphe-Patches](https://github.com/MorpheApp/morphe-patches), [ReVanced-Integrations](https://github.com/revanced/revanced-integrations) and [ReVanced-GsmCore](https://api.github.com/repos/revanced/gmscore) or [Morphe MicroG-RE](https://github.com/MorpheApp/MicroG-RE) (MicroG) on GitHub. If newer version found - downloads them.
 * List all connected ADB devices, user can choose the device to install the patched app too.
 * Patches can be included or excluded from patching process
 
 ## Requirements
-* **Supports only Revanced-CLI 4.x.x and Revanced-CLI 5.x.x**
-* Java 17 (or any other version compatible with Revanced-Cli)
+* **Supports only Morphe-CLI 1.0.0, Revanced-CLI 5.x.x and Revanced-CLI 4.x.x**
+* Java 21 (or any other version compatible with Revanced-Cli)
 * ADB should be in the path, however it's possible to choose an option in Settings to use embedded ADB. Program will create a bin folder in root and save it there.
 
 ## Instalation & Usage
@@ -29,9 +29,9 @@ To use specific keystore file to sign the apk it has to be placed in the same fo
 
 ## Compiling
 ### Requirements:
-* Java 17
-* JavaFX 17
-* Maven 3.8.7 (newer versions might fail to compile)
+* Java 25
+* JavaFX 25
+* Maven 3.9.11
 
 ### Compile:
 1. Clone the repo
